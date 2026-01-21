@@ -1,4 +1,6 @@
-﻿using Bagery.Business.Features.Categories.Queries.GetCategoryById;
+﻿using Bagery.Business.Features.Categories.Commands.CreateCategory;
+using Bagery.Business.Features.Categories.Commands.UpdateCategory;
+using Bagery.Business.Features.Categories.Queries.GetCategoryById;
 using Bagery.Business.Features.Categories.Queries.GetCategoryList;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +23,12 @@ namespace Bagery.WebUI.Areas.Admin.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CreateCategory( dto)
-        //{
-        //    await _service.TCreateAsync(dto);
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory(CreateCategoryCommand command)
+        {
+            var value = await _service.Send(command);
+            return value.Success ? RedirectToAction(nameof(Index)) : View(command);
+        }
 
         [HttpGet]
         public async Task<IActionResult> UpdateCategory(int id)
@@ -35,12 +37,12 @@ namespace Bagery.WebUI.Areas.Admin.Controllers
             return value.Success ? View(value.Data) : throw new Exception(value.Message);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateCategory(UpdateCategoryDto dto)
-        //{
-        //    await _service.TUpdateAsync(dto);
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryCommand command)
+        {
+            var result = await _service.Send(command);
+            return result.Success ? RedirectToAction(nameof(Index)) : throw new Exception(result.Message);
+        }
 
         //public async Task<IActionResult> DeleteCategory(int id)
         //{

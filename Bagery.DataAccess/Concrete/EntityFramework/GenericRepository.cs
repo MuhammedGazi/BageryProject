@@ -12,7 +12,7 @@ namespace Bagery.DataAccess.Concrete.EntityFramework
             await _context.AddAsync(entity);
         }
 
-        public void DeleteAsync(T entity)
+        public void Delete(T entity)
         {
             _context.Remove(entity);
 
@@ -28,7 +28,7 @@ namespace Bagery.DataAccess.Concrete.EntityFramework
             return await _table.FindAsync(id);
         }
 
-        public void UpdateAsync(T entity)
+        public void Update(T entity)
         {
             _context.Update(entity);
         }

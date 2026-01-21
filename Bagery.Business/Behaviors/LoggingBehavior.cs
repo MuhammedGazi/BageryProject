@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 namespace Bagery.Business.Behaviors
 {
@@ -15,13 +16,21 @@ namespace Bagery.Business.Behaviors
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             string requestName = typeof(TRequest).Name;
-            _logger.LogInformation($"[LOG] İşlem Başlıyor: {requestName}");
+            var requestData = JsonSerializer.Serialize(request);
 
-            var response = await next();
+            _logger.LogInformation($"[GİRİŞ] İstek: {requestName} | Veri: {requestData}");
 
-            _logger.LogInformation($"[LOG] İşlem Tamamlandı: {requestName}");
-
-            return response;
+            try
+            {
+                var response = await next();
+                _logger.LogInformation($"[ÇIKIŞ] İstek {requestName} başarıyla tamamlandı.");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[HATA] {requestName} işlenirken bir sorun oluştu! Hata Detayı: {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -1,0 +1,14 @@
+﻿@model Bagery.Business.Features.Categories.Commands.CreateCategory.CreateCategoryCommand
+@{
+    ViewData["Title"] = "CreateCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateCategory</h1>
+
+<form method="post">
+    <label>Kategori Adı</label>
+    <input type="text" class="form-control" asp-for="Name" />
+    <br />
+    <button class="btn btn-dark">Güncelle</button>
+</form>

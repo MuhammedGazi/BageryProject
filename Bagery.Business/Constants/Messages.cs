@@ -7,8 +7,10 @@
         public const string ValidationError = "Doğrulama hatası oluştu.";
 
         public const string CategoryAdded = "Kategori başarıyla eklendi.";
+        public const string CategoryAddedFailed = "Kategori başarıyla eklendi.";
         public const string CategoryDeleted = "Kategori başarıyla silindi.";
         public const string CategoryUpdated = "Kategori başarıyla güncellendi.";
+        public const string CategoryUpdatedFailed = "Kategori güncellenemedi.";
         public const string CategoryNameInvalid = "Kategori ismi geçersiz veya çok kısa.";
         public const string CategorysListed = "Kategoriler başarıyla listelendi.";
         public const string CategoryListed = "Kategori başarıyla listelendi.";
