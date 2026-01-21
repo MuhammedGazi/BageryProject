@@ -1,0 +1,29 @@
+﻿@model List<Bagery.Business.Features.Categories.Queries.GetCategoryList.GetCategoryListQueryResult>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+<h1>Kategori</h1>
+
+<table class="table table-hover">
+    <tr>
+        <th>#</th>
+        <th>Kategori Adı</th>
+        <th>İşlemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <td>@count</td>
+            <td>@item.Name</td>
+            <td>
+                <a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-danger">Sil</a>
+                <a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-warning">Güncelle</a>
+            </td>
+        </tr>
+    }
+</table>
+<a href="/Admin/Category/CreateCategory" class="btn btn-dark">Yeni Kategori Oluştur</a>
