@@ -10,5 +10,12 @@ namespace Bagery.DataAccess.Context
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<About> Abouts { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<ThreeStepService> ThreeStepServices { get; set; }
     }
 }

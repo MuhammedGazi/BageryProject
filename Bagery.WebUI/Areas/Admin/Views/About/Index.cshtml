@@ -1,0 +1,96 @@
+﻿@model List<Bagery.Business.Features.Abouts.Queries.GetAboutList.GetAboutListQueryResult>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Hakkımızda (About) Yönetimi</h1>
+        <a href="/Admin/About/CreateAbout" class="btn btn-dark btn-lg">
+            <i class="fa fa-plus"></i> Yeni Yazı Ekle
+        </a>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-12 mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 text-primary">#@item.AboutId - @item.MainTitle</h5>
+                            <div>
+                                <a href="/Admin/About/UpdateAbout/@item.AboutId" class="btn btn-warning btn-sm mx-1">
+                                    <i class="fa fa-edit"></i> Güncelle
+                                </a>
+                                <a href="/Admin/About/DeleteAbout/@item.AboutId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?');">
+                                    <i class="fa fa-trash"></i> Sil
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 text-center mb-3">
+                                    @if (!string.IsNullOrEmpty(item.MainImageUrl))
+                                    {
+                                        <img src="@item.MainImageUrl" class="img-fluid rounded shadow" alt="Main Image" style="max-height: 200px; object-fit: cover;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-secondary">Görsel Yok</div>
+                                    }
+                                </div>
+
+                                <div class="col-md-5 border-end">
+                                    <h6 class="text-uppercase text-muted fw-bold">Hakkımızda Bölümü</h6>
+                                    <hr class="mt-1 mb-2">
+                                    <p><strong>Başlık:</strong> @item.AboutTitle</p>
+                                    <p class="text-muted small">
+                                        <strong>Açıklama:</strong><br />
+                                        @item.AboutDescription
+                                    </p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <h6 class="text-uppercase text-muted fw-bold">Genel Bakış Bölümü</h6>
+                                    <hr class="mt-1 mb-2">
+                                    <p><strong>Başlık:</strong> @item.OverviewTitle</p>
+                                    <p class="text-muted small">
+                                        <strong>Açıklama:</strong><br />
+                                        @item.OverviewDescription
+                                    </p>
+                                    
+                                    <ul class="list-group list-group-flush small">
+                                        @if (!string.IsNullOrEmpty(item.Overview1))
+                                        {
+                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview1</li>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Overview2))
+                                        {
+                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview2</li>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Overview3))
+                                        {
+                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview3</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            Henüz eklenmiş bir "Hakkımızda" yazısı yok.
+        </div>
+    }
+</div>
+

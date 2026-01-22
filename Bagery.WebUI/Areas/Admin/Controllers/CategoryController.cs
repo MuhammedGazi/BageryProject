@@ -1,4 +1,5 @@
 ﻿using Bagery.Business.Features.Categories.Commands.CreateCategory;
+using Bagery.Business.Features.Categories.Commands.DeleteCategory;
 using Bagery.Business.Features.Categories.Commands.UpdateCategory;
 using Bagery.Business.Features.Categories.Queries.GetCategoryById;
 using Bagery.Business.Features.Categories.Queries.GetCategoryList;
@@ -44,11 +45,11 @@ namespace Bagery.WebUI.Areas.Admin.Controllers
             return result.Success ? RedirectToAction(nameof(Index)) : throw new Exception(result.Message);
         }
 
-        //public async Task<IActionResult> DeleteCategory(int id)
-        //{
-        //    await _service.TDeleteAsync(id);
-        //    return RedirectToAction(nameof(Index));
-        //}
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            await _service.Send(new DeleteCategoryCommand(id));
+            return RedirectToAction(nameof(Index));
+        }
     }
 
 }

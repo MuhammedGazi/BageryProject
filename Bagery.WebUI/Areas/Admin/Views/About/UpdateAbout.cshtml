@@ -1,0 +1,70 @@
+﻿@model Bagery.Business.Features.Abouts.Queries.GetAboutById.GetAboutByIdQueryResult
+@{
+    ViewData["Title"] = "UpdateAbout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Hakkımızda Yazısını Güncelle</h1>
+
+<form method="post" action="/Admin/About/UpdateAbout">
+
+    <input type="hidden" name="AboutId" value="@Model.AboutId" />
+
+    <div class="form-group mb-3">
+        <label>Ana Başlık (Main Title)</label>
+        <input type="text" name="MainTitle" value="@Model.MainTitle" class="form-control" required />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Ana Resim URL (Main Image Url)</label>
+        <input type="text" name="MainImageUrl" value="@Model.MainImageUrl" class="form-control" />
+    </div>
+
+    <hr />
+
+    <div class="form-group mb-3">
+        <label>Hakkımızda Başlık (About Title)</label>
+        <input type="text" name="AboutTitle" value="@Model.AboutTitle" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Hakkımızda Açıklama (About Description)</label>
+        <textarea name="AboutDescription" class="form-control" rows="4">@Model.AboutDescription</textarea>
+    </div>
+
+    <hr />
+
+    <div class="form-group mb-3">
+        <label>Genel Bakış Başlık (Overview Title)</label>
+        <input type="text" name="OverviewTitle" value="@Model.OverviewTitle" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label>Genel Bakış Açıklama (Overview Description)</label>
+        <textarea name="OverviewDescription" class="form-control" rows="3">@Model.OverviewDescription</textarea>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label>Madde 1 (Overview 1)</label>
+                <input type="text" name="Overview1" value="@Model.Overview1" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label>Madde 2 (Overview 2)</label>
+                <input type="text" name="Overview2" value="@Model.Overview2" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label>Madde 3 (Overview 3)</label>
+                <input type="text" name="Overview3" value="@Model.Overview3" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Güncelle</button>
+</form>
+
