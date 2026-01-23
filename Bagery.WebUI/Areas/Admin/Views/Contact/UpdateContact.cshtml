@@ -1,0 +1,43 @@
+﻿@using Bagery.Business.Features.Contacts.Queries.GetContactById
+@model GetContactByIdQueryResult
+@{
+    ViewData["Title"] = "UpdateContact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h3>Mesaj Güncelle / İncele</h3>
+    <form method="post" action="/Admin/Contact/UpdateContact">
+
+        <input type="hidden" name="ContactId" value="@Model.ContactId" />
+
+        <div class="mb-3">
+            <label class="form-label">Ad Soyad</label>
+            <input type="text" class="form-control" name="FullName" value="@Model.FullName" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="Email" value="@Model.Email" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Telefon Numarası</label>
+            <input type="text" class="form-control" name="PhoneNumber" value="@Model.PhoneNumber" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Konu</label>
+            <input type="text" class="form-control" name="Subject" value="@Model.Subject" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mesaj</label>
+            <textarea class="form-control" name="Message" rows="5" required>@Model.Message</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Güncelle</button>
+        <a href="/Admin/Contact/Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+

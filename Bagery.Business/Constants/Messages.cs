@@ -28,12 +28,38 @@
         public const string AboutListed = "Hakkımızda başarıyla listelendi.";
         public const string AboutNotFound = "Hakkımızda Kategori bulunamadı.";
 
+        public const string ContactAdded = "Contact başarıyla eklendi.";
+        public const string ContactAddedFailed = "Contact başarıyla eklendi.";
+        public const string ContactDeleted = "Contact başarıyla silindi.";
+        public const string ContactDeletedFailed = "Contact silinemedi.";
+        public const string ContactUpdated = "Contact başarıyla güncellendi.";
+        public const string ContactUpdatedFailed = "Contact güncellenemedi.";
+        public const string ContactNameInvalid = "Contact ismi geçersiz veya çok kısa.";
+        public const string ContactsListed = "Contactlar başarıyla listelendi.";
+        public const string ContactListed = "Contact başarıyla listelendi.";
+        public const string ContactNotFound = "Contact Kategori bulunamadı.";
+
         public const string ProductAdded = "Ürün başarıyla eklendi.";
+        public const string ProductAddedFailed = "Ürün başarıyla eklendi.";
         public const string ProductDeleted = "Ürün başarıyla silindi.";
+        public const string ProductDeletedFailed = "Ürün silinemedi.";
         public const string ProductUpdated = "Ürün başarıyla güncellendi.";
+        public const string ProductUpdatedFailed = "Ürün güncellenemedi.";
         public const string ProductNameInvalid = "Ürün ismi geçersiz veya çok kısa.";
         public const string ProductsListed = "Ürünler başarıyla listelendi.";
-        public const string ProductNotFound = "Aradığınız ürün bulunamadı.";
+        public const string ProductListed = "Ürün başarıyla listelendi.";
+        public const string ProductNotFound = "Ürün Kategori bulunamadı.";
+
+        public const string PromotionAdded = "Promotion başarıyla eklendi.";
+        public const string PromotionAddedFailed = "Promotion başarıyla eklendi.";
+        public const string PromotionDeleted = "Promotion başarıyla silindi.";
+        public const string PromotionDeletedFailed = "Promotion silinemedi.";
+        public const string PromotionUpdated = "Promotion başarıyla güncellendi.";
+        public const string PromotionUpdatedFailed = "Promotion güncellenemedi.";
+        public const string PromotionNameInvalid = "Promotion ismi geçersiz veya çok kısa.";
+        public const string PromotionsListed = "Promotionlar başarıyla listelendi.";
+        public const string PromotionListed = "Promotion başarıyla listelendi.";
+        public const string PromotionNotFound = "Promotion Kategori bulunamadı.";
 
     }
 }

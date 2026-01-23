@@ -1,6 +1,7 @@
 ﻿using Bagery.Core.Interfaces.Repositories;
 using Bagery.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Bagery.DataAccess.Concrete.EntityFramework
 {
@@ -21,6 +22,16 @@ namespace Bagery.DataAccess.Concrete.EntityFramework
         public async Task<List<T>> GetAllAsync()
         {
             return await _table.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
+        {
+            var query = _table.AsQueryable();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(int id)

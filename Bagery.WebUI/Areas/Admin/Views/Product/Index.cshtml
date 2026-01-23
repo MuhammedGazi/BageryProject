@@ -1,0 +1,50 @@
+﻿@using Bagery.Business.Features.Products.Queries.GetProductList
+@model List<GetProductListQueryResult>
+
+@{
+    ViewData["Title"] = "Ürün Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h3>Ürün Listesi</h3>
+    <a href="/Admin/Product/CreateProduct" class="btn btn-primary mb-3">Yeni Ürün Ekle</a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Fiyat</th>
+                    <th>Açıklama</th>
+                    <th>Kategori</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Price ₺</td>
+                        <td>@item.Description</td>
+                        <td>
+                            @(item.Category?.Name ?? "Kategori Yok")
+                        </td>
+                        <td>
+                            <a href="/Admin/Product/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
+                            <a href="/Admin/Product/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Sistemde kayıtlı ürün bulunamadı.
+        </div>
+    }
+</div>

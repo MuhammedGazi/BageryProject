@@ -1,0 +1,48 @@
+﻿@using Bagery.Business.Features.Contacts.Queries.GetContactList
+@model List<GetContactListQueryResult>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h3>İletişim Mesajları</h3>
+    <a href="/Admin/Contact/CreateContact" class="btn btn-primary mb-3">Yeni Mesaj Oluştur</a>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
+                    <th>Konu</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Subject</td>
+                        <td>
+                            <a href="/Admin/Contact/UpdateContact/@item.ContactId" class="btn btn-warning btn-sm">Güncelle / Detay</a>
+                            <a href="/Admin/Contact/DeleteContact/@item.ContactId" class="btn btn-danger btn-sm">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Henüz hiç iletişim mesajı yok.
+        </div>
+    }
+</div>
+

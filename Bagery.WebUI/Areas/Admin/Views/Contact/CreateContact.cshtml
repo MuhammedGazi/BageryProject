@@ -1,0 +1,42 @@
+﻿@using Bagery.Business.Features.Contacts.Commands.CreateContact
+@model CreateContactCommand
+@{
+    ViewData["Title"] = "CreateContact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-5">
+    <h3>Yeni Mesaj Ekle</h3>
+    <form method="post" action="/Admin/Contact/CreateContact">
+
+        <div class="mb-3">
+            <label class="form-label">Ad Soyad</label>
+            <input type="text" class="form-control" name="FullName" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="Email" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Telefon Numarası</label>
+            <input type="text" class="form-control" name="PhoneNumber" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Konu</label>
+            <input type="text" class="form-control" name="Subject" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mesaj</label>
+            <textarea class="form-control" name="Message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a href="/Admin/Contact/Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
+
