@@ -1,0 +1,42 @@
+﻿@model Bagery.Business.Features.ProductImages.Commands.CreateProductImage.CreateProductImageCommand
+@{
+    ViewData["Title"] = "Yeni Görsel Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 text-white">Yeni Ürün Görseli Yükle</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ürün Seçiniz</label>
+                            <select asp-for="ProductId" asp-items="@ViewBag.Products" class="form-control">
+                                <option value="">-- Bir Ürün Seçin --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ImageFile" class="form-label fw-bold">Resim Dosyası</label>
+                            <input type="file" asp-for="ImageFile" class="form-control" accept="image/*" />
+                            <small class="text-muted">Masaüstünden yüklemek istediğiniz resmi seçiniz.</small>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="/Admin/ProductImage/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="fa fa-upload"></i> Yükle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

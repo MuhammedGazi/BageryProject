@@ -1,0 +1,46 @@
+﻿@model Bagery.Business.Features.Services.Commands.CreateService.CreateServiceCommand
+@{
+    ViewData["Title"] = "Yeni Hizmet Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 text-white">Yeni Hizmet Oluştur</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold">Hizmet Başlığı</label>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Örn: Web Tasarım" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">Açıklama</label>
+                            <textarea class="form-control" asp-for="Description" rows="4" placeholder="Hizmet detaylarını buraya giriniz..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IconUrl" class="form-label fw-bold">İkon URL / Sınıfı</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-image"></i></span>
+                                <input type="text" class="form-control" asp-for="IconUrl" placeholder="Örn: fa fa-code veya /img/icon.png" />
+                            </div>
+                            <small class="text-muted">FontAwesome sınıfı veya resim yolu girebilirsiniz.</small>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="/Admin/Service/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="fa fa-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

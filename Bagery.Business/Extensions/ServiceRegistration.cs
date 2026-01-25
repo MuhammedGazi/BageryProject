@@ -1,4 +1,5 @@
 ﻿using Bagery.Business.Behaviors;
+using Bagery.Business.Services.CloudinaryServices;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,7 +22,7 @@ namespace Bagery.Business.Extensions
                 cfg.RegisterServicesFromAssembly(assembly);
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             });
-
+            services.AddScoped<ICloudinaryService,CloudinaryService>();
             return services;
         }
     }

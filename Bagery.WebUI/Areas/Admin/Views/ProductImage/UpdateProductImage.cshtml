@@ -1,0 +1,52 @@
+﻿@model Bagery.Business.Features.ProductImages.Queries.GetProductImageById.GetProductImageByIdQueryResult
+@{
+    ViewData["Title"] = "Görsel Güncelle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Görsel Güncelle</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="ProductImageId" />
+
+                        <div class="mb-4 text-center">
+                            <label class="form-label d-block fw-bold">Mevcut Resim</label>
+                            <img src="@Model.ImageUrl" class="img-fluid rounded border shadow-sm" style="max-height: 200px;" alt="Mevcut Görsel" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ürün Seçiniz</label>
+                            <select asp-for="ProductId" asp-items="@ViewBag.Products" class="form-control">
+                                <option value="">-- Bir Ürün Seçin --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Yeni Resim Seç (Opsiyonel)</label>
+                            <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+                            <small class="text-muted">Görseli değiştirmek istiyorsanız yeni bir dosya seçin.</small>
+                        </div>
+
+                        <input type="hidden" asp-for="ImagePublicId" />
+                        <input type="hidden" asp-for="ImageUrl" />
+                        <input type="hidden" asp-for="ThumbnailUrl" />
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="/Admin/ProductImage/Index" class="btn btn-outline-secondary me-2">Geri Dön</a>
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="fa fa-sync-alt"></i> Güncelle
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,75 @@
+﻿@model List<Bagery.Business.Features.ProductImages.Queries.GetProductImageList.GetProductImageListQueryResult>
+@{
+    ViewData["Title"] = "Ürün Görselleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0 text-white">Ürün Görsel Listesi</h3>
+            <a href="/Admin/ProductImage/CreateProductImage" class="btn btn-light text-primary fw-bold">
+                <i class="fa fa-plus"></i> Yeni Görsel Ekle
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-center" style="width: 50px;">#</th>
+                            <th scope="col">Görsel</th>
+                            <th scope="col">Ürün Adı</th>
+                            <th scope="col" class="text-center" style="width: 200px;">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                count++;
+                                <tr>
+                                    <td class="text-center fw-bold">@count</td>
+                                    <td>
+                                        <img src="@item.ThumbnailUrl" alt="Ürün Resmi" style="width: 100px; height: auto; border-radius: 5px; border: 1px solid #ddd;" />
+                                    </td>
+                                    <td>
+                                        @if (item.Product != null)
+                                        {
+                                            <span class="badge bg-dark">@item.Product.Name</span>
+                                        }
+                                        else
+                                        {
+                                            <span>-</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a href="/Admin/ProductImage/UpdateProductImage/@item.ProductImageId" class="btn btn-warning btn-sm text-white mx-1">
+                                                <i class="fa fa-edit"></i> Güncelle
+                                            </a>
+                                            <a href="/Admin/ProductImage/DeleteProductImage/@item.ProductImageId" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Bu görseli silmek istediğinize emin misiniz?');">
+                                                <i class="fa fa-trash"></i> Sil
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">
+                                    Herhangi bir ürün görseli bulunamadı.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

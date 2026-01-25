@@ -1,0 +1,45 @@
+﻿@model Bagery.Business.Features.ThreeStepServices.Commands.CreateThreeStepService.CreateThreeStepServiceCommand
+@{
+    ViewData["Title"] = "Yeni Adım Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0 text-white">Yeni 3 Adım Hizmeti Oluştur</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label fw-bold">Başlık</label>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Örn: Sipariş Ver" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-bold">Açıklama</label>
+                            <textarea class="form-control" asp-for="Description" rows="4" placeholder="Adım detaylarını buraya giriniz..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IconUrl" class="form-label fw-bold">İkon URL / Sınıfı</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-image"></i></span>
+                                <input type="text" class="form-control" asp-for="IconUrl" placeholder="Örn: fa fa-shopping-cart" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <a href="/Admin/ThreeStepService/Index" class="btn btn-outline-secondary me-2">İptal</a>
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="fa fa-save"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

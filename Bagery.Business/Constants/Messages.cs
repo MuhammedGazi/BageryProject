@@ -61,5 +61,38 @@
         public const string PromotionListed = "Promotion başarıyla listelendi.";
         public const string PromotionNotFound = "Promotion Kategori bulunamadı.";
 
+        public const string ServiceAdded = "Service başarıyla eklendi.";
+        public const string ServiceAddedFailed = "Service başarıyla eklendi.";
+        public const string ServiceDeleted = "Service başarıyla silindi.";
+        public const string ServiceDeletedFailed = "Service silinemedi.";
+        public const string ServiceUpdated = "Service başarıyla güncellendi.";
+        public const string ServiceUpdatedFailed = "Service güncellenemedi.";
+        public const string ServiceNameInvalid = "Service ismi geçersiz veya çok kısa.";
+        public const string ServicesListed = "Serviceler başarıyla listelendi.";
+        public const string ServiceListed = "Service başarıyla listelendi.";
+        public const string ServiceNotFound = "Service Kategori bulunamadı.";
+
+        public const string TSServiceAdded = "TSService başarıyla eklendi.";
+        public const string TSServiceAddedFailed = "TSService başarıyla eklendi.";
+        public const string TSServiceDeleted = "TSService başarıyla silindi.";
+        public const string TSServiceDeletedFailed = "TSService silinemedi.";
+        public const string TSServiceUpdated = "TSService başarıyla güncellendi.";
+        public const string TSServiceUpdatedFailed = "TSService güncellenemedi.";
+        public const string TSServiceNameInvalid = "TSService ismi geçersiz veya çok kısa.";
+        public const string TSServicesListed = "TSServiceler başarıyla listelendi.";
+        public const string TSServiceListed = "TSService başarıyla listelendi.";
+        public const string TSServiceNotFound = "TSService Kategori bulunamadı.";
+
+        public const string ProductImageAdded = "Ürün Resmi başarıyla eklendi.";
+        public const string ProductImageAddedFailed = "Ürün Resmi başarıyla eklendi.";
+        public const string ProductImageDeleted = "Ürün Resmi başarıyla silindi.";
+        public const string ProductImageDeletedFailed = "Ürün Resmi silinemedi.";
+        public const string ProductImageUpdated = "Ürün Resmi başarıyla güncellendi.";
+        public const string ProductImageUpdatedFailed = "Ürün Resmi güncellenemedi.";
+        public const string ProductImageNameInvalid = "Ürün Resmi ismi geçersiz veya çok kısa.";
+        public const string ProductImagesListed = "Ürün Resimleri başarıyla listelendi.";
+        public const string ProductImageListed = "Ürün Resmi başarıyla listelendi.";
+        public const string ProductImageNotFound = "Ürün Resmi Kategori bulunamadı.";
+
     }
 }
