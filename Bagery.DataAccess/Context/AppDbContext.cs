@@ -1,9 +1,10 @@
 ﻿using Bagery.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bagery.DataAccess.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -17,5 +18,7 @@ namespace Bagery.DataAccess.Context
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ThreeStepService> ThreeStepServices { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -1,0 +1,191 @@
+﻿@model Bagery.Business.DTOs.AuthDTOs.RegisterDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayıt Ol - Bagery</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            /* Bagery ismine uygun sıcak ve modern bir gradient arka plan */
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .register-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+            background: white;
+        }
+
+        .card-header-custom {
+            background: linear-gradient(45deg, #ff9966, #ff5e62); /* Fırın/Sıcaklık tonları */
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+            .card-header-custom h2 {
+                font-weight: 700;
+                margin-bottom: 5px;
+                letter-spacing: 1px;
+            }
+
+        .btn-custom {
+            background: linear-gradient(45deg, #ff9966, #ff5e62);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-custom:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(255, 94, 98, 0.4);
+                color: white;
+            }
+
+        .form-floating > label {
+            padding-left: 40px; /* İkonlar için yer açar */
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 20px;
+            left: 15px;
+            z-index: 4;
+            color: #aaa;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding-left: 40px; /* İkon hizalaması */
+        }
+
+            .form-control:focus {
+                box-shadow: none;
+                border-color: #ff9966;
+            }
+
+        .login-link {
+            color: #ff5e62;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .login-link:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="register-card mx-auto">
+            <div class="card-header-custom">
+                <h2><i class="fa-solid fa-bread-slice me-2"></i>Bagery</h2>
+                <p class="mb-0 text-white-50">Hemen aramıza katılın!</p>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="RegisterUser" asp-controller="Auth" method="post" enctype="multipart/form-data">
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <i class="fa-solid fa-user input-icon"></i>
+                                <div class="form-floating">
+                                    <input asp-for="FirstName" class="form-control" placeholder="Adınız" required />
+                                    <label asp-for="FirstName">Adınız</label>
+                                </div>
+                                <span asp-validation-for="FirstName" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <i class="fa-solid fa-user input-icon"></i>
+                                <div class="form-floating">
+                                    <input asp-for="LastName" class="form-control" placeholder="Soyadınız" required />
+                                    <label asp-for="LastName">Soyadınız</label>
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <div class="form-floating">
+                            <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com" required />
+                            <label asp-for="Email">E-Posta Adresi</label>
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <div class="form-floating">
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Şifre" required />
+                            <label asp-for="Password">Şifre</label>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <div class="form-floating">
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Şifre Tekrar" required />
+                            <label asp-for="ConfirmPassword">Şifre Tekrar</label>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted small ms-1">Profil Fotoğrafı (Opsiyonel)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white text-muted border-end-0" style="border-radius: 10px 0 0 10px;">
+                                <i class="fa-solid fa-image"></i>
+                            </span>
+                            <input asp-for="ProfileImage" type="file" class="form-control border-start-0" style="border-radius: 0 10px 10px 0; padding-left: 10px;" accept="image/*">
+                        </div>
+                        <span asp-validation-for="ProfileImage" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 mb-4">
+                        <button type="submit" class="btn btn-custom btn-lg">
+                            Kayıt Ol
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="mb-0 text-muted">Zaten hesabınız var mı? <a href="/Auth/Login" class="login-link">Giriş Yap</a></p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

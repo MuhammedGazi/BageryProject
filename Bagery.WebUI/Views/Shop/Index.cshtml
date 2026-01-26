@@ -1,0 +1,71 @@
+﻿@model List<Bagery.Business.Features.Products.Queries.GetProductList.GetProductListQueryResult>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_UILayout.cshtml";
+}
+
+<!--Page Title-->
+<section class="page-title centred" style="background-image: url(/Bagery/assets/images/background/page-title.jpg);">
+    <div class="auto-container">
+        <div class="content-box">
+            <div class="title">
+                <h1>Sipariş Sayfası</h1>
+            </div>
+            <ul class="bread-crumb clearfix">
+                <li><a href="index.html">Anasayfa</a></li>
+                <li>Sipariş</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!--End Page Title-->
+
+<!-- shop-page-section -->
+<section class="shop-page-section shop-page-2 centred">
+    <div class="cart-btn">
+        <a asp-controller="Shop" asp-action="ShopBasket" class="theme-btn-two">Sepete Git</a>
+    </div>
+    <div class="auto-container">
+        <div class="row clearfix">
+            @foreach(var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12 shop-block">
+                    <div class="shop-block-one">
+                        <div class="inner-box">
+                            <figure class="image-box">
+                                <img src="@item.ProductImages.FirstOrDefault().ThumbnailUrl" alt="">
+                            </figure>
+                            <div class="lower-content">
+                                <span class="price-box">$@item.Price</span>
+                                <h3><a href="shop-details.html">@item.Name</a></h3>
+                                <h4><a href="shop-details.html">@item.Category.Name</a></h4>
+                                <div class="cart-btn">
+                                    <a asp-controller="Shop"
+                                       asp-action="AddToCart"
+                                       asp-route-id="@item.ProductId"
+                                       asp-route-name="@item.Name"
+                                       asp-route-price="@item.Price"
+                                       class="theme-btn-two">
+                                        Sepete Ekle
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                <li><a href="shop-1.html">Prev</a></li>
+                <li><a href="shop-1.html">1</a></li>
+                <li><a href="shop-1.html" class="active">2</a></li>
+                <li><a href="shop-1.html">3</a></li>
+                <li><a href="shop-1.html">4</a></li>
+                <li><a href="shop-1.html">5</a></li>
+                <li><a href="shop-1.html">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- shop-page-section end -->

@@ -1,0 +1,32 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @await Component.InvokeAsync("_UILayoutHeadComponentPartial")
+</head>
+<body>
+
+    <div class="boxed_wrapper">
+
+        @await Component.InvokeAsync("_UILayoutPreloaderComponentPartial")
+
+        @await Component.InvokeAsync("_UILayoutRightSiderBarComponentPartial")
+
+        @await Component.InvokeAsync("_UILayoutNavbarComponentPartial")
+
+        @await Component.InvokeAsync("_UILayoutMobileMenuComponentPartial")
+
+        @RenderBody()
+
+        @await Component.InvokeAsync("_UILayoutFooterComponentPartial")
+    </div>
+
+    @await Component.InvokeAsync("_UILayoutScriptComponentPartial")
+
+</body>
+</html>
+

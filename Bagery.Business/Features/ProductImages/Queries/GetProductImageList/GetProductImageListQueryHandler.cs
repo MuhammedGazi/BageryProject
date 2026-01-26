@@ -12,7 +12,11 @@ namespace Bagery.Business.Features.ProductImages.Queries.GetProductImageList
         public async Task<IDataResult<List<GetProductImageListQueryResult>>> Handle(GetProductImageListQuery request, CancellationToken cancellationToken)
         {
             var photo = await repository.GetAllAsync(x => x.Product);
-            var result = photo.Adapt<List<GetProductImageListQueryResult>>();
+
+            var config = new TypeAdapterConfig();
+            config.NewConfig<ProductImage, GetProductImageListQueryResult>().MaxDepth(1);
+            var result = photo.Adapt<List<GetProductImageListQueryResult>>(config);
+
             return new SuccessDataResult<List<GetProductImageListQueryResult>>(result, Messages.ProductImagesListed);
         }
     }
