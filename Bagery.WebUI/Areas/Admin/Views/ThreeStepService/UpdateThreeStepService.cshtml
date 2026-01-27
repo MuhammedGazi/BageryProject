@@ -1,47 +1,51 @@
 ﻿@model Bagery.Business.Features.ThreeStepServices.Queries.GetThreeStepServiceById.GetThreeStepServiceByIdQueryResult
 @{
     ViewData["Title"] = "Adım Güncelle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-warning text-dark">
-                    <h4 class="mb-0">3 Adım Hizmeti Güncelle</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        <input type="hidden" asp-for="ThreeStepServiceId" />
+<div class="max-w-xl mx-auto mt-10">
+    <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card relative overflow-hidden">
 
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label fw-bold">Başlık</label>
-                            <input type="text" class="form-control" asp-for="Title" />
-                        </div>
+        <div class="mb-8 border-b border-border-subtle pb-4">
+            <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-500">edit_note</span>
+                Adımı Düzenle
+            </h1>
+            <p class="text-text-secondary text-sm">#@Model.ThreeStepServiceId - İşlem adımını güncelliyorsunuz.</p>
+        </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Description" class="form-label fw-bold">Açıklama</label>
-                            <textarea class="form-control" asp-for="Description" rows="4"></textarea>
-                        </div>
+        <form method="post" class="space-y-6">
+            <input type="hidden" asp-for="ThreeStepServiceId" />
 
-                        <div class="mb-3">
-                            <label asp-for="IconUrl" class="form-label fw-bold">İkon URL / Sınıfı</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fa fa-link"></i></span>
-                                <input type="text" class="form-control" asp-for="IconUrl" />
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <a href="/Admin/ThreeStepService/Index" class="btn btn-outline-secondary me-2">Geri Dön</a>
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa fa-sync-alt"></i> Güncelle
-                            </button>
-                        </div>
-                    </form>
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Adım Başlığı</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">title</span>
+                    <input type="text" asp-for="Title" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" required />
                 </div>
             </div>
-        </div>
+
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">İkon Adı</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">smart_button</span>
+                    <input type="text" asp-for="IconUrl" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Açıklama</label>
+                <textarea asp-for="Description" rows="3" class="w-full bg-bg-main border border-border-subtle rounded-lg p-4 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all resize-none"></textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-border-subtle">
+                <a href="/Admin/ThreeStepService/Index" class="px-6 py-2.5 rounded-lg text-text-secondary hover:bg-bg-main transition-colors text-sm font-medium">İptal</a>
+                <button type="submit" class="px-8 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold shadow-soft hover:shadow-lg transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">save_as</span>
+                    Değişiklikleri Kaydet
+                </button>
+            </div>
+        </form>
     </div>
 </div>

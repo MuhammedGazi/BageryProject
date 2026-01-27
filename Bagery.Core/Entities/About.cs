@@ -17,7 +17,8 @@
         public string Overview3 { get; set; }
 
         // Görsel
-        public string MainImageUrl { get; set; }
+        public string? MainImageUrl { get; set; }
+        public string? ImagePublicId { get; set; }
 
     }
 

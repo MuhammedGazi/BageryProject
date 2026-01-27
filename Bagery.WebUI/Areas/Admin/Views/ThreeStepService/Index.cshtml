@@ -1,78 +1,68 @@
 ﻿@model List<Bagery.Business.Features.ThreeStepServices.Queries.GetThreeStepServiceList.GetThreeStepServiceListQueryResult>
 @{
-    ViewData["Title"] = "3 Adım Hizmet Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var count = 0;
+    ViewData["Title"] = "3 Adım Hizmetleri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var i = 0;
 }
 
-<div class="container-fluid mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h3 class="card-title mb-0 text-white">3 Adım Hizmet Listesi</h3>
-            <a href="/Admin/ThreeStepService/CreateThreeStepService" class="btn btn-light text-primary fw-bold">
-                <i class="fa fa-plus"></i> Yeni Adım Ekle
-            </a>
-        </div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped mb-0 align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col" class="text-center" style="width: 50px;">#</th>
-                            <th scope="col">Başlık</th>
-                            <th scope="col">Açıklama</th>
-                            <th scope="col">İkon</th>
-                            <th scope="col" class="text-center" style="width: 200px;">İşlemler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            @foreach (var item in Model)
-                            {
-                                count++;
-                                <tr>
-                                    <td class="text-center fw-bold">@count</td>
-                                    <td>@item.Title</td>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(item.Description) && item.Description.Length > 50)
-                                        {
-                                            @item.Description.Substring(0, 50)
-                                
-                                            <text>...</text>
-                                        }
-                                        else
-                                        {
-                                            @item.Description
-                                        }
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info text-dark">@item.IconUrl</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a href="/Admin/ThreeStepService/UpdateThreeStepService/@item.ThreeStepServiceId" class="btn btn-warning btn-sm text-white mx-1">
-                                                <i class="fa fa-edit"></i> Güncelle
-                                            </a>
-                                            <a href="/Admin/ThreeStepService/DeleteThreeStepService/@item.ThreeStepServiceId" class="btn btn-danger btn-sm mx-1" onclick="return confirm('Silmek istediğinize emin misiniz?');">
-                                                <i class="fa fa-trash"></i> Sil
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
-                                    Herhangi bir kayıt bulunamadı.
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Nasıl Çalışır? (3 Adım)</h1>
+        <p class="text-text-secondary text-sm mt-1">Sitenizdeki işlem sürecini anlatan adımları yönetin.</p>
     </div>
+    <a href="/Admin/ThreeStepService/CreateThreeStepService"
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-soft hover:shadow-lg hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">add_task</span>
+        Yeni Adım Ekle
+    </a>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+
+        <div class="hidden md:block absolute top-12 left-0 w-full h-1 bg-gradient-to-r from-transparent via-border-subtle to-transparent -z-10"></div>
+
+        @foreach (var item in Model)
+        {
+            i++;
+            <div class="bg-bg-card border border-border-subtle rounded-2xl p-6 flex flex-col items-center text-center shadow-card hover:shadow-soft transition-all duration-300 group hover:-translate-y-2 relative">
+
+                <div class="absolute -top-4 bg-bg-card border border-border-subtle text-primary font-bold text-lg w-10 h-10 rounded-full flex items-center justify-center shadow-sm z-10 group-hover:bg-primary group-hover:text-white transition-colors">
+                    @i
+                </div>
+
+                <div class="w-20 h-20 rounded-full bg-bg-main border-4 border-bg-card flex items-center justify-center mb-4 text-text-secondary group-hover:text-primary group-hover:scale-110 transition-all duration-300 shadow-inner">
+                    <span class="material-symbols-outlined !text-[36px]">@(string.IsNullOrEmpty(item.IconUrl) ? "touch_app" : item.IconUrl)</span>
+                </div>
+
+                <h3 class="text-xl font-bold text-text-title mb-2">@item.Title</h3>
+                <p class="text-text-secondary text-sm leading-relaxed mb-6">
+                    @item.Description
+                </p>
+
+                <div class="mt-auto flex gap-3 w-full border-t border-border-subtle pt-4">
+                    <a href="/Admin/ThreeStepService/UpdateThreeStepService/@item.ThreeStepServiceId" class="flex-1 py-2 rounded-lg bg-amber-500/10 text-amber-600 hover:bg-amber-500 hover:text-white transition-all text-xs font-bold flex items-center justify-center gap-1">
+                        <span class="material-symbols-outlined !text-[16px]">edit</span>
+                        Düzenle
+                    </a>
+
+                    <button onclick="confirmDelete(event, '/Admin/ThreeStepService/DeleteThreeStepService/@item.ThreeStepServiceId')" class="flex-1 py-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all text-xs font-bold flex items-center justify-center gap-1">
+                        <span class="material-symbols-outlined !text-[16px]">delete</span>
+                        Sil
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-24 bg-bg-card border border-border-subtle rounded-xl border-dashed">
+        <div class="w-20 h-20 bg-bg-main rounded-full flex items-center justify-center mb-4 text-text-secondary">
+            <span class="material-symbols-outlined !text-4xl">checklist</span>
+        </div>
+        <h3 class="text-text-title font-medium">Süreç Tanımlanmadı</h3>
+        <p class="text-text-secondary text-sm">Henüz işlem adımları eklenmemiş.</p>
+    </div>
+}

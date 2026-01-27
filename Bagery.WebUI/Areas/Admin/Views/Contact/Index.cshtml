@@ -1,48 +1,79 @@
 ﻿@using Bagery.Business.Features.Contacts.Queries.GetContactList
 @model List<GetContactListQueryResult>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Gelen Mesajlar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <h3>İletişim Mesajları</h3>
-    <a href="/Admin/Contact/CreateContact" class="btn btn-primary mb-3">Yeni Mesaj Oluştur</a>
-
-    @if (Model != null && Model.Any())
-    {
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th>Ad Soyad</th>
-                    <th>Email</th>
-                    <th>Telefon</th>
-                    <th>Konu</th>
-                    <th>İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.FullName</td>
-                        <td>@item.Email</td>
-                        <td>@item.PhoneNumber</td>
-                        <td>@item.Subject</td>
-                        <td>
-                            <a href="/Admin/Contact/UpdateContact/@item.ContactId" class="btn btn-warning btn-sm">Güncelle / Detay</a>
-                            <a href="/Admin/Contact/DeleteContact/@item.ContactId" class="btn btn-danger btn-sm">Sil</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="alert alert-info">
-            Henüz hiç iletişim mesajı yok.
-        </div>
-    }
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Gelen Mesajlar</h1>
+        <p class="text-text-secondary text-sm mt-1">Web sitesinden gönderilen iletişim formları.</p>
+    </div>
+    <a href="/Admin/Contact/CreateContact"
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-soft hover:shadow-lg hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">mark_email_unread</span>
+        Yeni Mesaj Oluştur
+    </a>
 </div>
 
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        @foreach (var item in Model)
+        {
+            // İsimden baş harfi alma (Avatar için)
+            var initial = !string.IsNullOrEmpty(item.FullName) ? item.FullName.Substring(0, 1).ToUpper() : "?";
+
+            <div class="bg-bg-card border border-border-subtle rounded-xl p-6 flex flex-col justify-between shadow-card hover:shadow-soft transition-all duration-300 group relative overflow-hidden">
+
+                <div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-primary/10"></div>
+
+                <div>
+                    <div class="flex items-center gap-4 mb-4 relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                            @initial
+                        </div>
+                        <div>
+                            <h5 class="text-base font-bold text-text-title">@item.FullName</h5>
+                            <span class="text-xs text-text-secondary flex items-center gap-1">
+                                <span class="material-symbols-outlined !text-[14px]">call</span> @item.PhoneNumber
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 space-y-2 relative z-10">
+                        <h4 class="text-md font-semibold text-text-main group-hover:text-primary transition-colors line-clamp-1">
+                            @item.Subject
+                        </h4>
+                        <div class="flex items-center gap-2 text-xs text-text-secondary bg-bg-main/50 p-2 rounded-lg border border-border-subtle">
+                            <span class="material-symbols-outlined !text-[16px]">alternate_email</span>
+                            @item.Email
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between border-t border-border-subtle pt-4 mt-2">
+                    <a href="/Admin/Contact/UpdateContact/@item.ContactId" class="text-xs font-medium text-primary hover:text-white hover:bg-primary px-3 py-1.5 rounded-md transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined !text-[16px]">visibility</span>
+                        İncele / Düzenle
+                    </a>
+
+                    <button onclick="confirmDelete(event, '/Admin/Contact/DeleteContact/@item.ContactId')" class="p-2 text-text-secondary hover:text-red-500 hover:bg-red-500/10 rounded-full transition-colors" title="Sil">
+                        <span class="material-symbols-outlined !text-[20px]">delete</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-20 bg-bg-card border border-border-subtle rounded-xl border-dashed">
+        <div class="w-16 h-16 bg-bg-main rounded-full flex items-center justify-center mb-4 text-text-secondary">
+            <span class="material-symbols-outlined !text-3xl">inbox</span>
+        </div>
+        <h3 class="text-text-title font-medium">Gelen Kutusu Boş</h3>
+        <p class="text-text-secondary text-sm">Henüz bir iletişim mesajı alınmadı.</p>
+    </div>
+}

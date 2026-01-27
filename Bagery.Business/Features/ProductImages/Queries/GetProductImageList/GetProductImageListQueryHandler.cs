@@ -1,4 +1,5 @@
 using Bagery.Business.Constants;
+using Bagery.Business.Features.Products.Queries.GetProductList;
 using Bagery.Core.Entities;
 using Bagery.Core.Interfaces.Repositories;
 using Bagery.Core.Utilities.Results;
@@ -14,7 +15,9 @@ namespace Bagery.Business.Features.ProductImages.Queries.GetProductImageList
             var photo = await repository.GetAllAsync(x => x.Product);
 
             var config = new TypeAdapterConfig();
-            config.NewConfig<ProductImage, GetProductImageListQueryResult>().MaxDepth(1);
+            config.NewConfig<ProductImage, GetProductImageListQueryResult>();
+            config.NewConfig<Product, GetProductListQueryResult>()
+                  .Map(dest => dest.ProductImages, src => (IList<GetProductImageListQueryResult>)null);
             var result = photo.Adapt<List<GetProductImageListQueryResult>>(config);
 
             return new SuccessDataResult<List<GetProductImageListQueryResult>>(result, Messages.ProductImagesListed);

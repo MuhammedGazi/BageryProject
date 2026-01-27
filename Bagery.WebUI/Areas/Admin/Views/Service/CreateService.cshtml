@@ -1,46 +1,54 @@
 ﻿@model Bagery.Business.Features.Services.Commands.CreateService.CreateServiceCommand
 @{
-    ViewData["Title"] = "Yeni Hizmet Ekle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Yeni Hizmet";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0 text-white">Yeni Hizmet Oluştur</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        <div class="mb-3">
-                            <label asp-for="Title" class="form-label fw-bold">Hizmet Başlığı</label>
-                            <input type="text" class="form-control" asp-for="Title" placeholder="Örn: Web Tasarım" required />
-                        </div>
+<div class="max-w-2xl mx-auto mt-6">
+    <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card relative overflow-hidden">
 
-                        <div class="mb-3">
-                            <label asp-for="Description" class="form-label fw-bold">Açıklama</label>
-                            <textarea class="form-control" asp-for="Description" rows="4" placeholder="Hizmet detaylarını buraya giriniz..."></textarea>
-                        </div>
+        <div class="mb-8 border-b border-border-subtle pb-4">
+            <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">post_add</span>
+                Yeni Hizmet Ekle
+            </h1>
+            <p class="text-text-secondary text-sm">Sitenizde görünecek bir hizmet özelliği tanımlayın.</p>
+        </div>
 
-                        <div class="mb-3">
-                            <label asp-for="IconUrl" class="form-label fw-bold">İkon URL / Sınıfı</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fa fa-image"></i></span>
-                                <input type="text" class="form-control" asp-for="IconUrl" placeholder="Örn: fa fa-code veya /img/icon.png" />
-                            </div>
-                            <small class="text-muted">FontAwesome sınıfı veya resim yolu girebilirsiniz.</small>
-                        </div>
+        <form method="post" class="space-y-6">
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <a href="/Admin/Service/Index" class="btn btn-outline-secondary me-2">İptal</a>
-                            <button type="submit" class="btn btn-success px-4">
-                                <i class="fa fa-save"></i> Kaydet
-                            </button>
-                        </div>
-                    </form>
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Hizmet Başlığı</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">label</span>
+                    <input type="text" asp-for="Title" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Örn: Hızlı Teslimat" required />
                 </div>
             </div>
-        </div>
+
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">
+                    İkon Adı
+                    <a href="https://fonts.google.com/icons" target="_blank" class="text-primary text-xs hover:underline ml-1">(Google Icons ↗)</a>
+                </label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">image</span>
+                    <input type="text" asp-for="IconUrl" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Örn: local_shipping" />
+                </div>
+                <p class="text-[10px] text-text-secondary mt-1">Material Symbols ikon ismini giriniz.</p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Açıklama</label>
+                <textarea asp-for="Description" rows="4" class="w-full bg-bg-main border border-border-subtle rounded-lg p-4 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none" placeholder="Hizmet detaylarını buraya yazınız..."></textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-border-subtle">
+                <a href="/Admin/Service/Index" class="px-6 py-2.5 rounded-lg text-text-secondary hover:bg-bg-main transition-colors text-sm font-medium">Vazgeç</a>
+                <button type="submit" class="px-8 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-bold shadow-soft hover:shadow-lg transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">save</span>
+                    Kaydet
+                </button>
+            </div>
+        </form>
     </div>
 </div>

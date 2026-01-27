@@ -1,70 +1,99 @@
 ﻿@model Bagery.Business.Features.Abouts.Queries.GetAboutById.GetAboutByIdQueryResult
 @{
-    ViewData["Title"] = "UpdateAbout";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Yazıyı Güncelle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Hakkımızda Yazısını Güncelle</h1>
-
-<form method="post" action="/Admin/About/UpdateAbout">
-
-    <input type="hidden" name="AboutId" value="@Model.AboutId" />
-
-    <div class="form-group mb-3">
-        <label>Ana Başlık (Main Title)</label>
-        <input type="text" name="MainTitle" value="@Model.MainTitle" class="form-control" required />
-    </div>
-
-    <div class="form-group mb-3">
-        <label>Ana Resim URL (Main Image Url)</label>
-        <input type="text" name="MainImageUrl" value="@Model.MainImageUrl" class="form-control" />
-    </div>
-
-    <hr />
-
-    <div class="form-group mb-3">
-        <label>Hakkımızda Başlık (About Title)</label>
-        <input type="text" name="AboutTitle" value="@Model.AboutTitle" class="form-control" />
-    </div>
-
-    <div class="form-group mb-3">
-        <label>Hakkımızda Açıklama (About Description)</label>
-        <textarea name="AboutDescription" class="form-control" rows="4">@Model.AboutDescription</textarea>
-    </div>
-
-    <hr />
-
-    <div class="form-group mb-3">
-        <label>Genel Bakış Başlık (Overview Title)</label>
-        <input type="text" name="OverviewTitle" value="@Model.OverviewTitle" class="form-control" />
-    </div>
-
-    <div class="form-group mb-3">
-        <label>Genel Bakış Açıklama (Overview Description)</label>
-        <textarea name="OverviewDescription" class="form-control" rows="3">@Model.OverviewDescription</textarea>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 1 (Overview 1)</label>
-                <input type="text" name="Overview1" value="@Model.Overview1" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 2 (Overview 2)</label>
-                <input type="text" name="Overview2" value="@Model.Overview2" class="form-control" />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 3 (Overview 3)</label>
-                <input type="text" name="Overview3" value="@Model.Overview3" class="form-control" />
-            </div>
+<div class="max-w-4xl mx-auto">
+    <div class="mb-6 flex justify-between items-end">
+        <div>
+            <h1 class="text-2xl font-bold text-text-title">Yazıyı Güncelle</h1>
+            <p class="text-text-secondary text-sm">#@Model.AboutId numaralı kaydı düzenliyorsunuz.</p>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-warning">Güncelle</button>
-</form>
+    <form method="post" action="/Admin/About/UpdateAbout" enctype="multipart/form-data" class="space-y-6">
 
+        <input type="hidden" name="AboutId" value="@Model.AboutId" />
+        <input type="hidden" name="MainImageUrl" value="@Model.MainImageUrl" />
+
+        <div class="bg-bg-card border border-border-subtle rounded-xl p-6 shadow-card">
+            <h2 class="text-lg font-bold text-text-title mb-4 text-primary">Temel Bilgiler</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="block text-sm font-medium text-text-title">Görsel (Değiştirmek için seçin)</label>
+                    <div class="relative w-full h-48 border-2 border-dashed border-border-subtle rounded-lg bg-bg-main/50 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer group">
+                        <input type="file" name="Image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewImage(event)" accept="image/*" />
+
+                        <img id="imagePreview" src="@Model.MainImageUrl" class="absolute inset-0 w-full h-full object-cover @(string.IsNullOrEmpty(Model.MainImageUrl) ? "hidden" : "")" />
+
+                        <div id="uploadPlaceholder" class="@(string.IsNullOrEmpty(Model.MainImageUrl) ? "flex" : "hidden") flex-col items-center text-text-secondary">
+                            <span class="material-symbols-outlined !text-4xl mb-2">add_photo_alternate</span>
+                            <span class="text-xs font-medium">Yeni resim yükle</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-1">Ana Başlık</label>
+                        <input type="text" name="MainTitle" value="@Model.MainTitle" required class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-1">Hakkımızda Başlık</label>
+                        <input type="text" name="AboutTitle" value="@Model.AboutTitle" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-text-title mb-1">Hakkımızda Açıklama</label>
+                <textarea name="AboutDescription" rows="4" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none">@Model.AboutDescription</textarea>
+            </div>
+        </div>
+
+        <div class="bg-bg-card border border-border-subtle rounded-xl p-6 shadow-card">
+            <h2 class="text-lg font-bold text-text-title mb-4">Genel Bakış</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-1">Başlık</label>
+                    <input type="text" name="OverviewTitle" value="@Model.OverviewTitle" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-1">Açıklama</label>
+                    <input type="text" name="OverviewDescription" value="@Model.OverviewDescription" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+            </div>
+
+            <label class="block text-sm font-medium text-text-title mb-2">Maddeler</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" name="Overview1" value="@Model.Overview1" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                <input type="text" name="Overview2" value="@Model.Overview2" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                <input type="text" name="Overview3" value="@Model.Overview3" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-3">
+            <a href="/Admin/About/Index" class="px-6 py-2.5 border border-border-subtle text-text-secondary bg-white hover:bg-bg-main rounded-lg font-medium transition-colors">İptal</a>
+            <button type="submit" class="px-6 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg font-bold shadow-soft transition-all">Güncelle</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('imagePreview');
+        var placeholder = document.getElementById('uploadPlaceholder');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                if(placeholder) placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

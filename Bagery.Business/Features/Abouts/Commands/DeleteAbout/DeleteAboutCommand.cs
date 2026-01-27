@@ -1,5 +1,5 @@
-using MediatR;
 using Bagery.Core.Utilities.Results;
+using MediatR;
 
 namespace Bagery.Business.Features.Abouts.Commands.DeleteAbout
 {

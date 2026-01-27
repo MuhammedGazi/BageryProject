@@ -1,43 +1,75 @@
 ﻿@model List<Bagery.Business.Features.Promotions.Queries.GetPromotionList.GetPromotionListQueryResult>
 
 @{
-    ViewData["Title"] = "Promosyon Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Promosyonlar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    // Kart renklerini döngüsel kullanmak için
+    var colors = new[] { "from-pink-500 to-rose-500", "from-purple-500 to-indigo-500", "from-amber-400 to-orange-500", "from-emerald-400 to-teal-500" };
+    var i = 0;
 }
 
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>Promosyon Listesi</h4>
-        <a href="/Admin/Promotion/CreatePromotion" class="btn btn-primary">Yeni Promosyon Ekle</a>
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Promosyon Yönetimi</h1>
+        <p class="text-text-secondary text-sm mt-1">Müşterilerinize sunacağınız özel fırsatlar.</p>
     </div>
-    <div class="card-body">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>İkon</th>
-                    <th>Başlık</th>
-                    <th>Açıklama</th>
-                    <th>Fiyat</th>
-                    <th>İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.PromotionId</td>
-                        <td><i class="@item.IconUrl"></i> (@item.IconUrl)</td>
-                        <td>@item.Title</td>
-                        <td>@item.Description</td>
-                        <td>@item.Price.ToString("C")</td>
-                        <td>
-                            <a href="/Admin/Promotion/UpdatePromotion/@item.PromotionId" class="btn btn-warning btn-sm">Güncelle</a>
-                            <a href="/Admin/Promotion/DeletePromotion/@item.PromotionId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    <a href="/Admin/Promotion/CreatePromotion"
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-soft hover:shadow-lg hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">campaign</span>
+        Yeni Promosyon
+    </a>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        @foreach (var item in Model)
+        {
+            var bgGradient = colors[i % colors.Length];
+            i++;
+
+            <div class="relative bg-bg-card border border-border-subtle rounded-2xl overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group flex flex-col">
+
+                <div class="h-24 bg-gradient-to-r @bgGradient relative p-4 flex justify-between items-start">
+                    <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white shadow-sm">
+                        <span class="material-symbols-outlined !text-[28px]">@(string.IsNullOrEmpty(item.IconUrl) ? "local_offer" : item.IconUrl)</span>
+                    </div>
+
+                    <div class="bg-white/90 text-text-title font-bold px-3 py-1 rounded-full shadow-md text-sm backdrop-blur-sm">
+                        @item.Price.ToString("C")
+                    </div>
+                </div>
+
+                <div class="p-6 pt-8 relative flex-1 flex flex-col">
+                    <h3 class="text-lg font-bold text-text-title mb-2">@item.Title</h3>
+                    <p class="text-text-secondary text-sm leading-relaxed line-clamp-3 mb-4 flex-1">@item.Description</p>
+
+                    <div class="pt-4 border-t border-border-subtle flex items-center justify-between mt-auto">
+                        <span class="text-xs text-text-secondary font-medium px-2 py-1 bg-bg-main rounded-md border border-border-subtle">
+                            #@item.PromotionId
+                        </span>
+
+                        <div class="flex gap-2">
+                            <a href="/Admin/Promotion/UpdatePromotion/@item.PromotionId" class="w-8 h-8 rounded-lg flex items-center justify-center text-amber-500 hover:bg-amber-50 transition-colors" title="Düzenle">
+                                <span class="material-symbols-outlined !text-[18px]">edit</span>
+                            </a>
+                            <button onclick="confirmDelete(event, '/Admin/Promotion/DeletePromotion/@item.PromotionId')" class="w-8 h-8 rounded-lg flex items-center justify-center text-red-500 hover:bg-red-50 transition-colors" title="Sil">
+                                <span class="material-symbols-outlined !text-[18px]">delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-24 bg-bg-card border border-border-subtle rounded-xl border-dashed">
+        <div class="w-20 h-20 bg-bg-main rounded-full flex items-center justify-center mb-4 text-text-secondary">
+            <span class="material-symbols-outlined !text-4xl">percent</span>
+        </div>
+        <h3 class="text-text-title font-medium">Kampanya Bulunamadı</h3>
+        <p class="text-text-secondary text-sm">Henüz aktif bir promosyon eklenmemiş.</p>
+    </div>
+}

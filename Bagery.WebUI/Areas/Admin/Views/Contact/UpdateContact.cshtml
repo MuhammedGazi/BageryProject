@@ -1,43 +1,62 @@
 ﻿@using Bagery.Business.Features.Contacts.Queries.GetContactById
 @model GetContactByIdQueryResult
 @{
-    ViewData["Title"] = "UpdateContact";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <h3>Mesaj Güncelle / İncele</h3>
-    <form method="post" action="/Admin/Contact/UpdateContact">
+<div class="max-w-2xl mx-auto mt-6">
+    <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card relative overflow-hidden">
 
-        <input type="hidden" name="ContactId" value="@Model.ContactId" />
-
-        <div class="mb-3">
-            <label class="form-label">Ad Soyad</label>
-            <input type="text" class="form-control" name="FullName" value="@Model.FullName" required />
+        <div class="mb-8 border-b border-border-subtle pb-4 flex justify-between items-start">
+            <div>
+                <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                    <span class="material-symbols-outlined text-amber-500">edit_note</span>
+                    Mesaj Detayı & Güncelleme
+                </h1>
+                <p class="text-text-secondary text-sm">Gönderen: <span class="text-primary font-semibold">@Model.FullName</span></p>
+            </div>
+            <a href="/Admin/Contact/Index" class="text-text-secondary hover:text-text-main">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </a>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" name="Email" value="@Model.Email" required />
-        </div>
+        <form method="post" action="/Admin/Contact/UpdateContact" class="space-y-5">
+            <input type="hidden" name="ContactId" value="@Model.ContactId" />
 
-        <div class="mb-3">
-            <label class="form-label">Telefon Numarası</label>
-            <input type="text" class="form-control" name="PhoneNumber" value="@Model.PhoneNumber" />
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Ad Soyad</label>
+                    <input type="text" name="FullName" value="@Model.FullName" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" required />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Telefon</label>
+                    <input type="text" name="PhoneNumber" value="@Model.PhoneNumber" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" />
+                </div>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Konu</label>
-            <input type="text" class="form-control" name="Subject" value="@Model.Subject" required />
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Email</label>
+                    <input type="email" name="Email" value="@Model.Email" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" required />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Konu</label>
+                    <input type="text" name="Subject" value="@Model.Subject" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all" required />
+                </div>
+            </div>
 
-        <div class="mb-3">
-            <label class="form-label">Mesaj</label>
-            <textarea class="form-control" name="Message" rows="5" required>@Model.Message</textarea>
-        </div>
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Mesaj İçeriği</label>
+                <textarea name="Message" rows="6" class="w-full bg-bg-main border border-border-subtle rounded-lg p-4 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all resize-none leading-relaxed">@Model.Message</textarea>
+            </div>
 
-        <button type="submit" class="btn btn-warning">Güncelle</button>
-        <a href="/Admin/Contact/Index" class="btn btn-secondary">İptal</a>
-    </form>
+            <div class="flex items-center justify-end gap-3 pt-4">
+                <button type="submit" class="px-8 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold shadow-soft transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">save_as</span>
+                    Güncelle
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-

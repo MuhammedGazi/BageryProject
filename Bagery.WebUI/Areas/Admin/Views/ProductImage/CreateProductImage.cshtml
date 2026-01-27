@@ -1,42 +1,72 @@
 ﻿@model Bagery.Business.Features.ProductImages.Commands.CreateProductImage.CreateProductImageCommand
 @{
     ViewData["Title"] = "Yeni Görsel Ekle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0 text-white">Yeni Ürün Görseli Yükle</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
+<div class="max-w-2xl mx-auto mt-10">
+    <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card relative overflow-hidden">
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Ürün Seçiniz</label>
-                            <select asp-for="ProductId" asp-items="@ViewBag.Products" class="form-control">
-                                <option value="">-- Bir Ürün Seçin --</option>
-                            </select>
-                        </div>
+        <div class="mb-8 border-b border-border-subtle pb-4">
+            <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">add_a_photo</span>
+                Görsel Yükle
+            </h1>
+            <p class="text-text-secondary text-sm">Ürünleriniz için yeni bir görsel ekleyin.</p>
+        </div>
 
-                        <div class="mb-3">
-                            <label asp-for="ImageFile" class="form-label fw-bold">Resim Dosyası</label>
-                            <input type="file" asp-for="ImageFile" class="form-control" accept="image/*" />
-                            <small class="text-muted">Masaüstünden yüklemek istediğiniz resmi seçiniz.</small>
-                        </div>
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <a href="/Admin/ProductImage/Index" class="btn btn-outline-secondary me-2">İptal</a>
-                            <button type="submit" class="btn btn-success px-4">
-                                <i class="fa fa-upload"></i> Yükle
-                            </button>
-                        </div>
-                    </form>
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Hangi Ürün İçin?</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">inventory_2</span>
+                    <select asp-for="ProductId" asp-items="@ViewBag.Products" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all appearance-none cursor-pointer" required>
+                        <option value="">-- Ürün Seçiniz --</option>
+                    </select>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
                 </div>
             </div>
-        </div>
+
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Görsel Dosyası</label>
+                <div class="relative w-full h-64 border-2 border-dashed border-primary/30 rounded-lg bg-bg-main/50 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer group">
+                    <input type="file" asp-for="ImageFile" id="imageInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewImage(event)" accept="image/*" required />
+
+                    <div id="uploadPlaceholder" class="flex flex-col items-center text-text-secondary group-hover:text-primary transition-colors text-center p-4">
+                        <span class="material-symbols-outlined !text-5xl mb-3">cloud_upload</span>
+                        <span class="text-sm font-medium">Resmi buraya sürükleyin</span>
+                        <span class="text-xs opacity-70 mt-1">veya seçmek için tıklayın</span>
+                    </div>
+
+                    <img id="imagePreview" class="absolute inset-0 w-full h-full object-contain hidden p-2" />
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-border-subtle">
+                <a href="/Admin/ProductImage/Index" class="px-6 py-2.5 rounded-lg text-text-secondary hover:bg-bg-main transition-colors text-sm font-medium">Vazgeç</a>
+                <button type="submit" class="px-8 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-bold shadow-soft hover:shadow-lg transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">upload</span>
+                    Sisteme Yükle
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('imagePreview');
+        var placeholder = document.getElementById('uploadPlaceholder');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

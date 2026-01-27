@@ -3,48 +3,85 @@
 
 @{
     ViewData["Title"] = "Ürün Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <h3>Ürün Listesi</h3>
-    <a href="/Admin/Product/CreateProduct" class="btn btn-primary mb-3">Yeni Ürün Ekle</a>
-
-    @if (Model != null && Model.Any())
-    {
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th>Ürün Adı</th>
-                    <th>Fiyat</th>
-                    <th>Açıklama</th>
-                    <th>Kategori</th>
-                    <th>İşlemler</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Price ₺</td>
-                        <td>@item.Description</td>
-                        <td>
-                            @(item.Category?.Name ?? "Kategori Yok")
-                        </td>
-                        <td>
-                            <a href="/Admin/Product/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
-                            <a href="/Admin/Product/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm">Sil</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <div class="alert alert-info">
-            Sistemde kayıtlı ürün bulunamadı.
-        </div>
-    }
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Ürün Yönetimi</h1>
+        <p class="text-text-secondary text-sm mt-1">Lezzetli ürünlerinizi buradan yönetin.</p>
+    </div>
+    <a href="/Admin/Product/CreateProduct"
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-soft hover:shadow-lg hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">cake</span>
+        Yeni Ürün Ekle
+    </a>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @foreach (var item in Model)
+        {
+            // İlk resmi yakalıyoruz (Resim modelindeki property adının 'ImageUrl' olduğunu varsayıyorum)
+            // Eğer modelindeki property adı farklıysa (örn: Path, FileName) burayı düzeltmen gerekebilir.
+            var coverImage = item.ProductImages?.FirstOrDefault()?.ImageUrl;
+
+            <div class="bg-bg-card border border-border-subtle rounded-xl overflow-hidden flex flex-col shadow-card hover:shadow-soft transition-all duration-300 group hover:-translate-y-1 relative">
+
+                <div class="h-48 bg-bg-main relative flex items-center justify-center overflow-hidden border-b border-border-subtle">
+
+                    @if (!string.IsNullOrEmpty(coverImage))
+                    {
+                        <img src="@coverImage" alt="@item.Name" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                    }
+                    else
+                    {
+                        <div class="flex flex-col items-center justify-center text-primary/30">
+                            <span class="material-symbols-outlined !text-6xl group-hover:scale-110 transition-transform duration-500">bakery_dining</span>
+                        </div>
+                    }
+
+                    <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full shadow-sm border border-primary/10 z-10">
+                        <span class="text-primary font-bold text-sm">@item.Price.ToString("N2") ₺</span>
+                    </div>
+                </div>
+
+                <div class="p-5 flex-1 flex flex-col">
+                    <div class="mb-2">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold bg-sweet-blue/20 text-indigo-500 border border-sweet-blue/30 uppercase tracking-wide">
+                            <span class="material-symbols-outlined !text-[12px]">category</span>
+                            @(item.Category?.Name ?? "Kategorisiz")
+                        </span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-text-title mb-1 line-clamp-1" title="@item.Name">@item.Name</h3>
+                    <p class="text-sm text-text-secondary line-clamp-2 mb-4 h-10">@item.Description</p>
+
+                    <div class="mt-auto flex items-center justify-between border-t border-border-subtle pt-4 gap-2">
+                        <a href="/Admin/Product/UpdateProduct/@item.ProductId" class="flex-1 py-2 rounded-lg bg-amber-500/10 text-amber-600 hover:bg-amber-500 hover:text-white transition-all text-xs font-bold flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined !text-[16px]">edit_square</span>
+                            Güncelle
+                        </a>
+
+                        <button onclick="confirmDelete(event, '/Admin/Product/DeleteProduct/@item.ProductId')" class="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all" title="Sil">
+                            <span class="material-symbols-outlined !text-[18px]">delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-20 bg-bg-card border border-border-subtle rounded-xl border-dashed">
+        <div class="w-16 h-16 bg-bg-main rounded-full flex items-center justify-center mb-4 text-text-secondary">
+            <span class="material-symbols-outlined !text-3xl">cookie</span>
+        </div>
+        <h3 class="text-text-title font-medium">Vitrin Boş</h3>
+        <p class="text-text-secondary text-sm">Henüz sisteme ürün eklenmemiş.</p>
+    </div>
+}

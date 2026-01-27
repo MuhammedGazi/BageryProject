@@ -1,99 +1,77 @@
 ﻿@model List<Bagery.Business.Features.Abouts.Queries.GetAboutList.GetAboutListQueryResult>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var count = 0;
+    ViewData["Title"] = "Hakkımızda Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Hakkımızda (About) Yönetimi</h1>
-        <a href="/Admin/About/CreateAbout" class="btn btn-dark btn-lg">
-            <i class="fa fa-plus"></i> Yeni Yazı Ekle
-        </a>
-        <a href="/Auth/LogOut" class="btn btn-danger btn-lg">
-            <i class="fa fa-plus"></i> Çıkış Yap
-        </a>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Hakkımızda Yönetimi</h1>
+        <p class="text-text-secondary text-sm mt-1">Kurumsal içerikleri buradan yönetebilirsiniz.</p>
     </div>
+    <a href="/Admin/About/CreateAbout" 
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-[0_4px_14px_rgba(255,107,139,0.4)] hover:shadow-[0_6px_20px_rgba(255,107,139,0.6)] hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">add_circle</span>
+        Yeni Yazı Ekle
+    </a>
+</div>
 
-    @if (Model != null && Model.Count > 0)
-    {
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="col-md-12 mb-4">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 text-primary">#@item.AboutId - @item.MainTitle</h5>
-                            <div>
-                                <a href="/Admin/About/UpdateAbout/@item.AboutId" class="btn btn-warning btn-sm mx-1">
-                                    <i class="fa fa-edit"></i> Güncelle
-                                </a>
-                                <a href="/Admin/About/DeleteAbout/@item.AboutId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?');">
-                                    <i class="fa fa-trash"></i> Sil
-                                </a>
-                            </div>
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        @foreach (var item in Model)
+        {
+            <div class="bg-bg-card border border-border-subtle rounded-xl overflow-hidden flex flex-col shadow-card hover:shadow-soft transition-all duration-300 group hover:-translate-y-1">
+                
+                <div class="relative h-48 overflow-hidden bg-gray-100">
+                    @if (!string.IsNullOrEmpty(item.MainImageUrl))
+                    {
+                        <img src="@item.MainImageUrl" alt="@item.MainTitle" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    }
+                    else
+                    {
+                        <div class="w-full h-full flex items-center justify-center text-text-secondary bg-sweet-pink/20">
+                            <span class="material-symbols-outlined !text-4xl">image_not_supported</span>
                         </div>
+                    }
+                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-primary shadow-sm border border-primary/20">
+                        #@item.AboutId
+                    </span>
+                </div>
 
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3 text-center mb-3">
-                                    @if (!string.IsNullOrEmpty(item.MainImageUrl))
-                                    {
-                                        <img src="@item.MainImageUrl" class="img-fluid rounded shadow" alt="Main Image" style="max-height: 200px; object-fit: cover;" />
-                                    }
-                                    else
-                                    {
-                                        <div class="alert alert-secondary">Görsel Yok</div>
-                                    }
-                                </div>
+                <div class="p-5 flex-1 flex flex-col">
+                    <h3 class="text-lg font-bold text-text-title mb-1 line-clamp-1">@item.MainTitle</h3>
+                    <p class="text-sm text-text-secondary line-clamp-2 mb-4">@item.AboutDescription</p>
 
-                                <div class="col-md-5 border-end">
-                                    <h6 class="text-uppercase text-muted fw-bold">Hakkımızda Bölümü</h6>
-                                    <hr class="mt-1 mb-2">
-                                    <p><strong>Başlık:</strong> @item.AboutTitle</p>
-                                    <p class="text-muted small">
-                                        <strong>Açıklama:</strong><br />
-                                        @item.AboutDescription
-                                    </p>
-                                </div>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        @if (!string.IsNullOrEmpty(item.Overview1)) { <span class="px-2 py-1 rounded-md bg-sweet-mint/30 text-emerald-700 text-xs font-medium border border-sweet-mint">@item.Overview1</span> }
+                        @if (!string.IsNullOrEmpty(item.Overview2)) { <span class="px-2 py-1 rounded-md bg-sweet-blue/30 text-indigo-600 text-xs font-medium border border-sweet-blue">@item.Overview2</span> }
+                        @if (!string.IsNullOrEmpty(item.Overview3)) { <span class="px-2 py-1 rounded-md bg-sweet-peach/30 text-orange-600 text-xs font-medium border border-sweet-peach">@item.Overview3</span> }
+                    </div>
 
-                                <div class="col-md-4">
-                                    <h6 class="text-uppercase text-muted fw-bold">Genel Bakış Bölümü</h6>
-                                    <hr class="mt-1 mb-2">
-                                    <p><strong>Başlık:</strong> @item.OverviewTitle</p>
-                                    <p class="text-muted small">
-                                        <strong>Açıklama:</strong><br />
-                                        @item.OverviewDescription
-                                    </p>
-                                    
-                                    <ul class="list-group list-group-flush small">
-                                        @if (!string.IsNullOrEmpty(item.Overview1))
-                                        {
-                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview1</li>
-                                        }
-                                        @if (!string.IsNullOrEmpty(item.Overview2))
-                                        {
-                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview2</li>
-                                        }
-                                        @if (!string.IsNullOrEmpty(item.Overview3))
-                                        {
-                                            <li class="list-group-item px-0"><i class="fa fa-check text-success"></i> @item.Overview3</li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+                    <div class="mt-auto flex items-center justify-between border-t border-border-subtle pt-4">
+                        <span class="text-xs text-text-secondary font-medium">İşlemler</span>
+                        <div class="flex gap-2">
+                            <a href="/Admin/About/UpdateAbout/@item.AboutId" class="p-2 rounded-lg text-text-secondary hover:text-amber-500 hover:bg-amber-50 transition-colors" title="Düzenle">
+                                <span class="material-symbols-outlined !text-[20px]">edit</span>
+                            </a>
+                            <a href="/Admin/About/DeleteAbout/@item.AboutId" onclick="return confirm('Silmek istediğinize emin misiniz?');" class="p-2 rounded-lg text-text-secondary hover:text-red-500 hover:bg-red-50 transition-colors" title="Sil">
+                                <span class="material-symbols-outlined !text-[20px]">delete</span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-20 bg-bg-card border border-border-subtle rounded-xl shadow-sm border-dashed border-2 border-primary/20">
+        <div class="w-16 h-16 bg-sweet-pink/20 text-primary rounded-full flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined !text-3xl">sentiment_dissatisfied</span>
         </div>
-    }
-    else
-    {
-        <div class="alert alert-info text-center">
-            Henüz eklenmiş bir "Hakkımızda" yazısı yok.
-        </div>
-    }
-</div>
-
+        <h3 class="text-lg font-semibold text-text-title">Henüz İçerik Yok</h3>
+        <p class="text-text-secondary text-sm mt-1">Yeni bir 'Hakkımızda' yazısı ekleyerek başlayın.</p>
+    </div>
+}

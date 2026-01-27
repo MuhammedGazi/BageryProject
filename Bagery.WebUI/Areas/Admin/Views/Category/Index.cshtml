@@ -1,29 +1,89 @@
 ﻿@model List<Bagery.Business.Features.Categories.Queries.GetCategoryList.GetCategoryListQueryResult>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var count = 0;
+    ViewData["Title"] = "Kategoriler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var colors = new[] { "text-primary bg-primary/10", "text-indigo-500 bg-sweet-blue/20", "text-emerald-500 bg-sweet-mint/30", "text-orange-500 bg-sweet-peach/30" };
+    var i = 0;
 }
 
-<h1>Kategori</h1>
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Kategori Yönetimi</h1>
+        <p class="text-text-secondary text-sm mt-1">Ürünlerinizi gruplayacağınız kategoriler.</p>
+    </div>
+    <a href="/Admin/Category/CreateCategory"
+       class="px-5 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-[0_4px_14px_rgba(255,107,139,0.4)] hover:shadow-[0_6px_20px_rgba(255,107,139,0.6)] hover:-translate-y-0.5">
+        <span class="material-symbols-outlined !text-[20px]">add</span>
+        Yeni Kategori
+    </a>
+</div>
 
-<table class="table table-hover">
-    <tr>
-        <th>#</th>
-        <th>Kategori Adı</th>
-        <th>İşlemler</th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        count++;
-        <tr>
-            <td>@count</td>
-            <td>@item.Name</td>
-            <td>
-                <a href="/Admin/Category/DeleteCategory/@item.Id" class="btn btn-danger">Sil</a>
-                <a href="/Admin/Category/UpdateCategory/@item.Id" class="btn btn-warning">Güncelle</a>
-            </td>
-        </tr>
+@if (Model != null && Model.Any())
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        @foreach (var item in Model)
+        {
+            var themeClass = colors[i % colors.Length];
+            i++;
+
+            <div class="bg-bg-card border border-border-subtle rounded-xl p-5 flex items-center justify-between shadow-card hover:shadow-soft hover:border-primary/30 transition-all duration-300 group">
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-lg flex items-center justify-center @themeClass transition-colors group-hover:scale-110 duration-300">
+                        <span class="material-symbols-outlined !text-[24px]">category</span>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-bold text-text-title leading-tight">@item.Name</h5>
+                        <span class="text-xs text-text-secondary">ID: #@item.Id</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+                    <a href="/Admin/Category/UpdateCategory/@item.Id" class="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:text-amber-500 hover:bg-amber-50 transition-colors" title="Düzenle">
+                        <span class="material-symbols-outlined !text-[18px]">edit</span>
+                    </a>
+
+                    <button onclick="confirmDelete(event, '/Admin/Category/DeleteCategory/@item.Id')" class="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:text-red-500 hover:bg-red-50 transition-colors" title="Sil">
+                        <span class="material-symbols-outlined !text-[18px]">delete</span>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-16 border-2 border-dashed border-border-subtle rounded-xl bg-bg-main/30">
+        <div class="w-16 h-16 bg-bg-card rounded-full shadow-sm flex items-center justify-center mb-3">
+            <span class="material-symbols-outlined text-text-secondary !text-3xl">folder_off</span>
+        </div>
+        <h3 class="text-text-title font-medium">Kategori Bulunamadı</h3>
+        <p class="text-text-secondary text-sm">Listelenecek kategori yok.</p>
+    </div>
+}
+
+<script>
+    function confirmDelete(e, url) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: "Bu kategoriyi silmek üzeresiniz. Bu işlem geri alınamaz!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444', 
+            cancelButtonColor: '#64748b', 
+            confirmButtonText: 'Evet, Sil!',
+            cancelButtonText: 'Vazgeç',
+            background: '#1e293b', 
+            color: '#cbd5e1', 
+            customClass: {
+                popup: 'border border-slate-700 rounded-xl shadow-xl'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        })
     }
-</table>
-<a href="/Admin/Category/CreateCategory" class="btn btn-dark">Yeni Kategori Oluştur</a>
+</script>

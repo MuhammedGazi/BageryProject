@@ -3,36 +3,69 @@
 
 @{
     ViewData["Title"] = "Yeni Ürün Ekle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <h3>Yeni Ürün Ekle</h3>
+<div class="max-w-3xl mx-auto mt-8">
     <form method="post" action="/Admin/Product/CreateProduct">
 
-        <div class="mb-3">
-            <label class="form-label">Ürün Adı</label>
-            <input type="text" class="form-control" asp-for="Name" required />
-        </div>
+        <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card relative overflow-hidden">
 
-        <div class="mb-3">
-            <label class="form-label">Fiyat</label>
-            <input type="number" step="0.01" class="form-control" asp-for="Price" required />
-        </div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-6 -mt-6"></div>
 
-        <div class="mb-3">
-            <label class="form-label">Açıklama</label>
-            <textarea class="form-control" asp-for="Description" rows="3"></textarea>
-        </div>
+            <div class="mb-8 border-b border-border-subtle pb-4">
+                <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">add_circle</span>
+                    Yeni Ürün Oluştur
+                </h1>
+                <p class="text-text-secondary text-sm mt-1">
+                    <span class="material-symbols-outlined !text-[14px] align-middle text-amber-500">info</span>
+                    Ürün görsellerini, ürünü kaydettikten sonra düzenleme ekranından ekleyebilirsiniz.
+                </p>
+            </div>
 
-        <div class="mb-3">
-            <label>Kategori</label>
-            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categories">
-                <option value="">Kategori Seçiniz</option>
-            </select>
-        </div>
+            <div class="space-y-6 relative z-10">
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Ürün Adı</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">label</span>
+                        <input type="text" asp-for="Name" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder-text-secondary/50" placeholder="Örn: Frambuazlı Cheesecake" required />
+                    </div>
+                </div>
 
-        <button type="submit" class="btn btn-success">Kaydet</button>
-        <a href="/Admin/Product/Index" class="btn btn-secondary">İptal</a>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-2">Fiyat (₺)</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">payments</span>
+                            <input type="number" step="0.01" asp-for="Price" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="0.00" required />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-2">Kategori</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">category</span>
+                            <select asp-for="CategoryId" asp-items="@ViewBag.categories" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all appearance-none cursor-pointer">
+                                <option value="">Kategori Seçiniz</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-2">Açıklama</label>
+                    <textarea asp-for="Description" rows="4" class="w-full bg-bg-main border border-border-subtle rounded-lg p-4 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none" placeholder="Ürün hakkında detaylı bilgi..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-6 mt-6 border-t border-border-subtle">
+                <a href="/Admin/Product/Index" class="px-6 py-2.5 rounded-lg text-text-secondary hover:bg-bg-main transition-colors text-sm font-medium">Vazgeç</a>
+                <button type="submit" class="px-8 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-bold shadow-soft hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center gap-2">
+                    <span class="material-symbols-outlined !text-[20px]">save</span>
+                    Kaydet ve Devam Et
+                </button>
+            </div>
+        </div>
     </form>
 </div>

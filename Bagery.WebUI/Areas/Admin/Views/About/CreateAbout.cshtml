@@ -1,68 +1,110 @@
 ﻿@model Bagery.Business.Features.Abouts.Commands.CreateAbout.CreateAboutCommand
 @{
-    ViewData["Title"] = "CreateAbout";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Yeni Yazı Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Yeni Hakkımızda Yazısı Oluştur</h1>
-
-<form method="post" action="/Admin/About/CreateAbout">
-
-    <div class="form-group mb-3">
-        <label>Ana Başlık (Main Title)</label>
-        <input type="text" name="MainTitle" class="form-control" required />
+<div class="max-w-4xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-text-title">Yeni Yazı Oluştur</h1>
+        <p class="text-text-secondary text-sm">Formu doldurarak yeni bir içerik oluşturun.</p>
     </div>
 
-    <div class="form-group mb-3">
-        <label>Ana Resim URL (Main Image Url)</label>
-        <input type="text" name="MainImageUrl" class="form-control" />
-    </div>
+    <form method="post" action="/Admin/About/CreateAbout" enctype="multipart/form-data" class="space-y-6">
 
-    <hr />
+        <div class="bg-bg-card border border-border-subtle rounded-xl p-6 shadow-card">
+            <h2 class="text-lg font-bold text-text-title mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">image</span>
+                Görsel ve Ana Başlık
+            </h2>
 
-    <div class="form-group mb-3">
-        <label>Hakkımızda Başlık (About Title)</label>
-        <input type="text" name="AboutTitle" class="form-control" />
-    </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="block text-sm font-medium text-text-title">Kapak Görseli</label>
+                    <div class="relative w-full h-48 border-2 border-dashed border-primary/30 rounded-lg bg-bg-main/50 flex flex-col items-center justify-center overflow-hidden hover:border-primary transition-colors cursor-pointer group">
+                        <input type="file" name="ImageFile" id="imageInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewImage(event)" accept="image/*" />
 
-    <div class="form-group mb-3">
-        <label>Hakkımızda Açıklama (About Description)</label>
-        <textarea name="AboutDescription" class="form-control" rows="4"></textarea>
-    </div>
+                        <div id="uploadPlaceholder" class="flex flex-col items-center text-text-secondary group-hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined !text-4xl mb-2">cloud_upload</span>
+                            <span class="text-xs font-medium">Resim seçmek için tıklayın</span>
+                        </div>
 
-    <hr />
+                        <img id="imagePreview" class="absolute inset-0 w-full h-full object-cover hidden" />
+                    </div>
+                </div>
 
-    <div class="form-group mb-3">
-        <label>Genel Bakış Başlık (Overview Title)</label>
-        <input type="text" name="OverviewTitle" class="form-control" />
-    </div>
-
-    <div class="form-group mb-3">
-        <label>Genel Bakış Açıklama (Overview Description)</label>
-        <textarea name="OverviewDescription" class="form-control" rows="3"></textarea>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 1 (Overview 1)</label>
-                <input type="text" name="Overview1" class="form-control" />
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-1">Ana Başlık (Main Title)</label>
+                        <input type="text" name="MainTitle" required class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder-text-secondary/50" placeholder="Örn: Lezzetli Hikayemiz" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-1">Hakkımızda Başlık</label>
+                        <input type="text" name="AboutTitle" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-text-title mb-1">Hakkımızda Açıklama</label>
+                <textarea name="AboutDescription" rows="4" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"></textarea>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 2 (Overview 2)</label>
-                <input type="text" name="Overview2" class="form-control" />
+
+        <div class="bg-bg-card border border-border-subtle rounded-xl p-6 shadow-card">
+            <h2 class="text-lg font-bold text-text-title mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sweet-blue text-indigo-500">list_alt</span>
+                Genel Bakış Detayları
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-1">Genel Bakış Başlık</label>
+                    <input type="text" name="OverviewTitle" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-text-title mb-1">Genel Bakış Açıklama</label>
+                    <input type="text" name="OverviewDescription" class="w-full bg-bg-main border border-border-subtle rounded-lg px-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+            </div>
+
+            <label class="block text-sm font-medium text-text-title mb-2">Öne Çıkan Maddeler</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-500 material-symbols-outlined !text-[18px]">check_circle</span>
+                    <input type="text" name="Overview1" placeholder="Madde 1" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-9 pr-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-500 material-symbols-outlined !text-[18px]">check_circle</span>
+                    <input type="text" name="Overview2" placeholder="Madde 2" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-9 pr-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
+                <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-orange-500 material-symbols-outlined !text-[18px]">check_circle</span>
+                    <input type="text" name="Overview3" placeholder="Madde 3" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-9 pr-4 py-2.5 text-text-main focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" />
+                </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group mb-3">
-                <label>Madde 3 (Overview 3)</label>
-                <input type="text" name="Overview3" class="form-control" />
-            </div>
+
+        <div class="flex justify-end gap-3">
+            <a href="/Admin/About/Index" class="px-6 py-2.5 border border-border-subtle text-text-secondary bg-white hover:bg-bg-main rounded-lg font-medium transition-colors">Vazgeç</a>
+            <button type="submit" class="px-6 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-lg font-bold shadow-soft hover:shadow-lg hover:-translate-y-0.5 transition-all">Kaydet</button>
         </div>
-    </div>
+    </form>
+</div>
 
-    <button type="submit" class="btn btn-primary">Kaydet</button>
-</form>
+<script>
+    function previewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('imagePreview');
+        var placeholder = document.getElementById('uploadPlaceholder');
 
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

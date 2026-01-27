@@ -3,7 +3,6 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
 
 namespace Bagery.Business.Services.CloudinaryServices
 {
@@ -41,8 +40,8 @@ namespace Bagery.Business.Services.CloudinaryServices
         {
             if (string.IsNullOrEmpty(publicId))
                 return string.Empty;
-            var transformation=new Transformation().Quality("auto").FetchFormat("auto");
-            if(width>0)
+            var transformation = new Transformation().Quality("auto").FetchFormat("auto");
+            if (width > 0)
                 transformation.Width(width);
             if (height > 0)
                 transformation.Height(height);
@@ -67,6 +66,33 @@ namespace Bagery.Business.Services.CloudinaryServices
                 .BuildUrl(publicId);
         }
 
+        //public async Task CleanupUnusedImagesAsync(string table)
+        //{
+        //    var usedPublicIds = await _context.Database
+        //        .Where(p => !string.IsNullOrEmpty(p.ImagePublicId))
+        //        .Select(p => p.ImagePublicId)
+        //        .ToListAsync();
+
+        //    // Cloudinary'deki tüm resimleri listele
+        //    var listParams = new ListResourcesParams
+        //    {
+        //        Type = "upload",
+        //        Prefix = "products/",
+        //        MaxResults = 500
+        //    };
+
+        //    var resources = await _cloudinary.ListResourcesAsync(listParams);
+
+        //    // Kullanılmayanları sil
+        //    foreach (var resource in resources.Resources)
+        //    {
+        //        if (!usedPublicIds.Contains(resource.PublicId))
+        //        {
+        //            await DeleteImageAsync(resource.PublicId);
+        //        }
+        //    }
+        //}
+
         public async Task<CloudinaryUploadResult> UploadImageAsync(IFormFile file, string folder = "")
         {
             if (file == null || file.Length == 0)
@@ -80,7 +106,7 @@ namespace Bagery.Business.Services.CloudinaryServices
 
             try
             {
-                using(var stream = file.OpenReadStream())
+                using (var stream = file.OpenReadStream())
                 {
                     var uploadParams = new ImageUploadParams
                     {
@@ -93,7 +119,7 @@ namespace Bagery.Business.Services.CloudinaryServices
 
                     var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-                    if(uploadResult.StatusCode==System.Net.HttpStatusCode.OK)
+                    if (uploadResult.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         return new CloudinaryUploadResult
                         {

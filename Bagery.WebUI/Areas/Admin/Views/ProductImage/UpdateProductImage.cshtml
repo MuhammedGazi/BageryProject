@@ -1,52 +1,90 @@
 ﻿@model Bagery.Business.Features.ProductImages.Queries.GetProductImageById.GetProductImageByIdQueryResult
 @{
     ViewData["Title"] = "Görsel Güncelle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-warning text-dark">
-                    <h4 class="mb-0">Görsel Güncelle</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
-                        <input type="hidden" asp-for="ProductImageId" />
+<div class="max-w-4xl mx-auto mt-10">
+    <div class="bg-bg-card border border-border-subtle rounded-xl p-8 shadow-card">
 
-                        <div class="mb-4 text-center">
-                            <label class="form-label d-block fw-bold">Mevcut Resim</label>
-                            <img src="@Model.ImageUrl" class="img-fluid rounded border shadow-sm" style="max-height: 200px;" alt="Mevcut Görsel" />
-                        </div>
+        <div class="mb-8 border-b border-border-subtle pb-4">
+            <h1 class="text-2xl font-bold text-text-title flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-500">edit_square</span>
+                Görseli Güncelle
+            </h1>
+            <p class="text-text-secondary text-sm">#@Model.ProductImageId numaralı görsel kaydını düzenliyorsunuz.</p>
+        </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Ürün Seçiniz</label>
-                            <select asp-for="ProductId" asp-items="@ViewBag.Products" class="form-control">
-                                <option value="">-- Bir Ürün Seçin --</option>
-                            </select>
-                        </div>
+        <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <input type="hidden" asp-for="ProductImageId" />
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Yeni Resim Seç (Opsiyonel)</label>
-                            <input type="file" name="ImageFile" class="form-control" accept="image/*" />
-                            <small class="text-muted">Görseli değiştirmek istiyorsanız yeni bir dosya seçin.</small>
-                        </div>
+            <input type="hidden" asp-for="ImagePublicId" />
+            <input type="hidden" asp-for="ImageUrl" />
+            <input type="hidden" asp-for="ThumbnailUrl" />
 
-                        <input type="hidden" asp-for="ImagePublicId" />
-                        <input type="hidden" asp-for="ImageUrl" />
-                        <input type="hidden" asp-for="ThumbnailUrl" />
-
-                        <div class="d-flex justify-content-end mt-4">
-                            <a href="/Admin/ProductImage/Index" class="btn btn-outline-secondary me-2">Geri Dön</a>
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="fa fa-sync-alt"></i> Güncelle
-                            </button>
-                        </div>
-                    </form>
+            <div>
+                <label class="block text-sm font-medium text-text-title mb-2">Mevcut Görsel</label>
+                <div class="relative rounded-lg overflow-hidden border border-border-subtle bg-bg-main aspect-square flex items-center justify-center">
+                    <img src="@Model.ImageUrl" class="max-w-full max-h-full object-contain" alt="Mevcut Resim" />
+                    <div class="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                        Mevcut
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="flex flex-col justify-between">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-2">Ürün</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary">inventory_2</span>
+                            <select asp-for="ProductId" asp-items="@ViewBag.Products" class="w-full bg-bg-main border border-border-subtle rounded-lg pl-10 pr-4 py-3 text-text-main focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 outline-none transition-all appearance-none cursor-pointer">
+                                <option value="">-- Ürün Seçiniz --</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-text-title mb-2">Yeni Görsel Seç (Opsiyonel)</label>
+                        <div class="relative w-full h-40 border-2 border-dashed border-text-secondary/30 rounded-lg bg-bg-main/50 flex flex-col items-center justify-center overflow-hidden hover:border-amber-500 transition-colors cursor-pointer group">
+                            <input type="file" name="ImageFile" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewNewImage(event)" accept="image/*" />
+
+                            <div id="newUploadPlaceholder" class="flex flex-col items-center text-text-secondary group-hover:text-amber-500 transition-colors">
+                                <span class="material-symbols-outlined !text-3xl mb-1">change_circle</span>
+                                <span class="text-xs">Değiştirmek için tıkla</span>
+                            </div>
+
+                            <img id="newImagePreview" class="absolute inset-0 w-full h-full object-contain hidden bg-bg-card" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-6 mt-4 border-t border-border-subtle">
+                    <a href="/Admin/ProductImage/Index" class="px-6 py-2.5 rounded-lg text-text-secondary hover:bg-bg-main transition-colors text-sm font-medium">İptal</a>
+                    <button type="submit" class="px-8 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold shadow-soft hover:shadow-lg transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined !text-[20px]">save_as</span>
+                        Değişiklikleri Kaydet
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
+<script>
+    function previewNewImage(event) {
+        var input = event.target;
+        var preview = document.getElementById('newImagePreview');
+        var placeholder = document.getElementById('newUploadPlaceholder');
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
