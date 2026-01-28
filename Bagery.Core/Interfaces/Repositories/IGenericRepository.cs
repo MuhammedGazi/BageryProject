@@ -6,6 +6,7 @@ namespace Bagery.Core.Interfaces.Repositories
     {
         Task<List<T>> GetAllAsync();
         Task<List<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);
+        Task<List<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>> query);
         Task<T> GetByIdAsync(int id);
         Task CreateAsync(T entity);
         void Update(T entity);

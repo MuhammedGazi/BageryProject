@@ -110,5 +110,27 @@
         public const string UserLogingFailed = "E-posta veya şifre hatalı";
         public const string UserLogOutSuccess = "User şuan pasif durumda.";
 
+        public const string OrderAdded = "Sipariş başarıyla eklendi.";
+        public const string OrderAddedFailed = "Sipariş eklenemedi.";
+        public const string OrderDeleted = "Sipariş başarıyla silindi.";
+        public const string OrderDeletedFailed = "Sipariş silinemedi.";
+        public const string OrderUpdated = "Sipariş başarıyla güncellendi.";
+        public const string OrderUpdatedFailed = "Sipariş güncellenemedi.";
+        public const string OrderNameInvalid = "Sipariş ismi geçersiz veya çok kısa.";
+        public const string OrdersListed = "Siparişler başarıyla listelendi.";
+        public const string OrderListed = "Sipariş başarıyla listelendi.";
+        public const string OrderNotFound = "Sipariş Kategori bulunamadı.";
+
+        public const string BannerAdded = "Banner başarıyla eklendi.";
+        public const string BannerAddedFailed = "Banner eklenemedi.";
+        public const string BannerDeleted = "Banner başarıyla silindi.";
+        public const string BannerDeletedFailed = "Banner silinemedi.";
+        public const string BannerUpdated = "Banner başarıyla güncellendi.";
+        public const string BannerUpdatedFailed = "Banner güncellenemedi.";
+        public const string BannerNameInvalid = "Banner ismi geçersiz veya çok kısa.";
+        public const string BannersListed = "Bannerlar başarıyla listelendi.";
+        public const string BannerListed = "Banner başarıyla listelendi.";
+        public const string BannerNotFound = "Banner Kategori bulunamadı.";
+
     }
 }

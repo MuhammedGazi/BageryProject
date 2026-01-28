@@ -33,6 +33,17 @@ namespace Bagery.DataAccess.Concrete.EntityFramework
             }
             return await query.AsNoTracking().ToListAsync();
         }
+        public async Task<List<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>> query)
+        {
+            var queryable = _table.AsQueryable();
+
+            if (query != null)
+            {
+                queryable = query(queryable);
+            }
+
+            return await queryable.AsNoTracking().ToListAsync();
+        }
 
         public async Task<T> GetByIdAsync(int id)
         {

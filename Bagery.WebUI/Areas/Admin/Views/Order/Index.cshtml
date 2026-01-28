@@ -1,0 +1,186 @@
+﻿@using Bagery.Core.Entities
+@using Bagery.Core.Consts
+@model List<Bagery.Business.Features.Orders.Queries.GetOrderList.GetOrderListQueryResult>
+
+@{
+    ViewData["Title"] = "Sipariş Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 mb-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-title">Sipariş Takibi</h1>
+        <p class="text-text-secondary text-sm mt-1">Gelen siparişleri ve durumlarını buradan yönetin.</p>
+    </div>
+
+    <div class="flex gap-4">
+        <div class="px-4 py-2 bg-white border border-border-subtle rounded-lg shadow-sm text-center">
+            <span class="block text-xs text-text-secondary">Toplam Sipariş</span>
+            <span class="block text-lg font-bold text-primary">@Model.Count()</span>
+        </div>
+        <div class="px-4 py-2 bg-white border border-border-subtle rounded-lg shadow-sm text-center">
+            <span class="block text-xs text-text-secondary">Bekleyen</span>
+            <span class="block text-lg font-bold text-amber-500">
+                @Model.Count(x => x.OrderStatus == OrderStatus.Hazirlaniyor)
+            </span>
+        </div>
+    </div>
+</div>
+
+@if (Model != null && Model.Any())
+{
+    <div class="space-y-4">
+        @foreach (var order in Model.OrderByDescending(x => x.Date))
+        {
+            <div class="bg-bg-card border border-border-subtle rounded-xl shadow-card overflow-hidden transition-all group" id="order-card-@order.Id">
+
+                <div class="p-6 flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+
+                    <div class="flex items-center gap-4 flex-1 cursor-pointer" onclick="toggleOrderDetails(@order.Id)">
+                        <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg border border-indigo-100">
+                            #@order.Id
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-text-title">
+                                @(order.Customer != null ? order.Customer.UserName : "Misafir Müşteri")
+                            </h3>
+                            <div class="flex items-center gap-3 text-sm text-text-secondary mt-1">
+                                <span class="flex items-center gap-1">
+                                    <span class="material-symbols-outlined !text-[16px]">calendar_month</span>
+                                    @order.Date.ToString("dd MMM yyyy, HH:mm")
+                                </span>
+                                <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                                <span class="flex items-center gap-1 font-semibold text-text-title">
+                                    @order.TotalPrice.ToString("C2")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w-full lg:w-auto">
+                        <form action="/Admin/Order/UpdateStatus" method="post" class="flex items-center gap-2">
+                            <input type="hidden" name="orderId" value="@order.Id" />
+
+                            <div class="relative">
+                                <select name="status" onchange="this.form.submit()"
+                                        class="appearance-none pl-4 pr-10 py-2 rounded-lg text-sm font-medium border cursor-pointer focus:ring-2 outline-none transition-all
+                                                @(order.OrderStatus == OrderStatus.Hazirlaniyor ? "bg-amber-50 text-amber-700 border-amber-200 focus:ring-amber-500/20" : "")
+                                                @(order.OrderStatus == OrderStatus.Kargoda ? "bg-blue-50 text-blue-700 border-blue-200 focus:ring-blue-500/20" : "")
+                                                @(order.OrderStatus == OrderStatus.TeslimEdildi ? "bg-emerald-50 text-emerald-700 border-emerald-200 focus:ring-emerald-500/20" : "")
+                                                @(order.OrderStatus == OrderStatus.IptalEdildi ? "bg-red-50 text-red-700 border-red-200 focus:ring-red-500/20" : "")">
+
+                                    @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+                                    {
+                                        if (order.OrderStatus.ToString() == status.ToString())
+                                        {
+                                            <option value="@status" selected>@status</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@status">@status</option>
+                                        }
+                                    }
+                                </select>
+                                <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-current !text-[18px]">expand_more</span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="flex items-center gap-3 self-end lg:self-auto">
+                        <button onclick="toggleOrderDetails(@order.Id)" class="w-10 h-10 rounded-lg flex items-center justify-center border border-border-subtle text-text-secondary hover:bg-bg-main hover:text-primary transition-colors" title="Detayları Gör">
+                            <span id="icon-@order.Id" class="material-symbols-outlined transition-transform duration-300">expand_more</span>
+                        </button>
+
+                        <button onclick="confirmDelete(event, '/Admin/Order/DeleteOrder/@order.Id')" class="w-10 h-10 rounded-lg flex items-center justify-center bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="Siparişi Sil">
+                            <span class="material-symbols-outlined !text-[20px]">delete</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="details-@order.Id" class="hidden border-t border-border-subtle bg-bg-main/30">
+                    <div class="p-6">
+                        <h4 class="text-sm font-bold text-text-title mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined !text-[18px] text-primary">shopping_basket</span>
+                            Sepet İçeriği (@order.OrderDetails?.Sum(x => x.Quantity) Ürün)
+                        </h4>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="text-xs text-text-secondary uppercase border-b border-border-subtle/50">
+                                    <tr>
+                                        <th class="pb-2 pl-2">Ürün</th>
+                                        <th class="pb-2 text-center">Birim Fiyat</th>
+                                        <th class="pb-2 text-center">Adet</th>
+                                        <th class="pb-2 text-right pr-2">Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border-subtle/50">
+                                    @if (order.OrderDetails != null)
+                                    {
+                                        @foreach (var detail in order.OrderDetails)
+                                        {
+                                            <tr class="hover:bg-white/50 transition-colors">
+                                                <td class="py-3 pl-2">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="w-10 h-10 rounded-lg bg-white border border-border-subtle overflow-hidden flex-shrink-0">
+                                                            @if (detail.Product != null && detail.Product.ProductImages != null && detail.Product.ProductImages.Any())
+                                                            {
+                                                                <img src="@detail.Product.ProductImages.FirstOrDefault()?.ThumbnailUrl" class="w-full h-full object-cover" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="w-full h-full flex items-center justify-center text-text-secondary">
+                                                                    <span class="material-symbols-outlined !text-[20px]">image_not_supported</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <span class="font-medium text-text-title">
+                                                            @(detail.Product?.Name ?? "Silinmiş Ürün")
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td class="py-3 text-center text-text-secondary">@detail.UnitPrice.ToString("C2")</td>
+                                                <td class="py-3 text-center font-bold text-text-title">x @detail.Quantity</td>
+                                                <td class="py-3 text-right pr-2 font-bold text-primary">
+                                                    @((detail.UnitPrice * detail.Quantity).ToString("C2"))
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="flex flex-col items-center justify-center py-24 bg-bg-card border border-border-subtle rounded-xl border-dashed">
+        <div class="w-20 h-20 bg-indigo-50 text-indigo-400 rounded-full flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined !text-4xl">receipt_long</span>
+        </div>
+        <h3 class="text-text-title font-medium">Sipariş Yok</h3>
+        <p class="text-text-secondary text-sm">Henüz herhangi bir sipariş alınmamış.</p>
+    </div>
+}
+
+<script>
+    function toggleOrderDetails(orderId) {
+        var detailsDiv = document.getElementById('details-' + orderId);
+        var iconSpan = document.getElementById('icon-' + orderId);
+
+        if (detailsDiv.classList.contains('hidden')) {
+            // Aç
+            detailsDiv.classList.remove('hidden');
+            detailsDiv.classList.add('animate-fade-in-down'); // Varsa animasyon sınıfın
+            iconSpan.style.transform = 'rotate(180deg)';
+        } else {
+            // Kapat
+            detailsDiv.classList.add('hidden');
+            iconSpan.style.transform = 'rotate(0deg)';
+        }
+    }
+</script>

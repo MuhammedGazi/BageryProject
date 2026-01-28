@@ -1,12 +1,16 @@
+using Bagery.Business.Features.Abouts.Queries.GetAboutList;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Bagery.ViewComponents.DefaultComponents
 {
-    public class _DefaultAboutComponentPartial : ViewComponent
+    public class _DefaultAboutComponentPartial(IMediator _mediator) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            var about = await _mediator.Send(new GetAboutListQuery());
+            return View(about.Data);
         }
     }
 }
