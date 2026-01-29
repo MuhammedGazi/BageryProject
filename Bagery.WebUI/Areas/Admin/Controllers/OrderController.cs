@@ -3,12 +3,13 @@ using Bagery.Business.Features.Orders.Commands.UpdateOrder;
 using Bagery.Business.Features.Orders.Queries.GetOrderList;
 using Bagery.Core.Consts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class OrderController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()
@@ -26,7 +27,7 @@ namespace Bagery.WebUI.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteOrder(int orderId)
         {
-            var result= await _mediator.Send(new DeleteOrderCommand(orderId));
+            var result = await _mediator.Send(new DeleteOrderCommand(orderId));
             return result.Success ? RedirectToAction(nameof(Index)) : View();
         }
     }

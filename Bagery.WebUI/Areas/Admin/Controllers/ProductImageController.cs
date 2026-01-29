@@ -5,12 +5,14 @@ using Bagery.Business.Features.ProductImages.Queries.GetProductImageById;
 using Bagery.Business.Features.ProductImages.Queries.GetProductImageList;
 using Bagery.Business.Features.Products.Queries.GetProductList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ProductImageController(IMediator _mediator) : Controller
     {
         private async Task GetProductAsync()

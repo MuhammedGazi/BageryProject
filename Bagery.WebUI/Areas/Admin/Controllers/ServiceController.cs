@@ -4,11 +4,13 @@ using Bagery.Business.Features.Services.Commands.UpdateService;
 using Bagery.Business.Features.Services.Queries.GetServiceById;
 using Bagery.Business.Features.Services.Queries.GetServiceList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ServiceController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()

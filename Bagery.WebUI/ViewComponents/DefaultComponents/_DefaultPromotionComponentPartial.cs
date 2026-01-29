@@ -1,12 +1,15 @@
+using Bagery.Business.Features.Promotions.Queries.GetPromotionList;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.ViewComponents.DefaultComponents
 {
-    public class _DefaultPromotionComponentPartial : ViewComponent
+    public class _DefaultPromotionComponentPartial(IMediator _mediator) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            var result = await _mediator.Send(new GetPromotionListQuery());
+            return View(result.Data);
         }
     }
 }

@@ -1,0 +1,191 @@
+﻿@using Bagery.Core.Entities
+@using Bagery.Core.Consts
+@model List<Bagery.Business.Features.Orders.Queries.GetOrderList.GetOrderListQueryResult>
+@{
+    ViewData["Title"] = "Siparişlerim";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section class="page-title" style="background-image: url(/Bagery/assets/images/background/page-title.jpg);">
+    <div class="auto-container">
+        <div class="title-outer">
+            <h1>Siparişlerim</h1>
+            <ul class="page-breadcrumb">
+                <li><a href="/Home/Index">Anasayfa</a></li>
+                <li>Siparişlerim</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="cart-section">
+    <div class="auto-container">
+
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                            <i class="fa fa-shopping-bag text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Toplam Sipariş</h6>
+                            <h3 class="fw-bold mb-0">@Model.Count()</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                            <i class="fa fa-clock text-warning fs-4"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Hazırlanan</h6>
+                            <h3 class="fw-bold mb-0 text-warning">
+                                @Model.Count(x => x.OrderStatus == OrderStatus.Hazirlaniyor)
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    @foreach (var order in Model.OrderByDescending(x => x.Date))
+                    {
+                        <div class="card border-0 shadow-sm mb-4 overflow-hidden">
+                            <div class="card-header bg-white border-bottom p-4">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center me-3"
+                                             style="width: 50px; height: 50px;">
+                                            <span class="fw-bold text-dark">#@order.Id</span>
+                                        </div>
+                                        <div>
+                                            <div class="d-flex align-items-center gap-2 mb-1">
+                                                <h5 class="mb-0 fw-bold text-dark">Sipariş #@order.Id</h5>
+                                                @{
+                                                    string badgeClass = order.OrderStatus switch
+                                                    {
+                                                        OrderStatus.Hazirlaniyor => "bg-warning text-dark",
+                                                        OrderStatus.Kargoda => "bg-info text-white",
+                                                        OrderStatus.TeslimEdildi => "bg-success",
+                                                        OrderStatus.IptalEdildi => "bg-danger",
+                                                        _ => "bg-secondary"
+                                                    };
+                                                }
+                                                <span class="badge rounded-pill @badgeClass">@order.OrderStatus</span>
+                                            </div>
+                                            <small class="text-muted">
+                                                <i class="fa fa-calendar me-1"></i> @order.Date.ToString("dd MMMM yyyy, HH:mm")
+                                                <span class="mx-2">•</span>
+                                                <span class="fw-bold text-primary">@order.TotalPrice.ToString("C2")</span>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        @if (order.OrderStatus == OrderStatus.Hazirlaniyor)
+                                        {
+                                            <form action="/Order/CancelOrder" method="post" onsubmit="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">
+                                                <input type="hidden" name="orderId" value="@order.Id" />
+                                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-2 d-flex align-items-center gap-2">
+                                                    <i class="fa fa-times"></i> İptal Et
+                                                </button>
+                                            </form>
+                                        }
+
+                                        <button class="btn btn-light btn-sm px-3 py-2 d-flex align-items-center gap-2"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapseOrder-@order.Id">
+                                            Detaylar <i class="fa fa-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="collapseOrder-@order.Id">
+                                <div class="card-body bg-light p-4">
+                                    <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                                        <i class="fa fa-shopping-basket text-primary"></i> Sepet İçeriği
+                                    </h6>
+
+                                    <div class="table-responsive bg-white rounded border">
+                                        <table class="table table-borderless mb-0 align-middle">
+                                            <thead class="bg-light border-bottom">
+                                                <tr>
+                                                    <th class="ps-4">Ürün</th>
+                                                    <th class="text-center">Birim Fiyat</th>
+                                                    <th class="text-center">Adet</th>
+                                                    <th class="text-end pe-4">Toplam</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (order.OrderDetails != null)
+                                                {
+                                                    foreach (var detail in order.OrderDetails)
+                                                    {
+                                                        <tr>
+                                                            <td class="ps-4">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="rounded border p-1 me-3" style="width: 50px; height: 50px;">
+                                                                        @if (detail.Product?.ProductImages?.FirstOrDefault() != null)
+                                                                        {
+                                                                            <img src="@detail.Product.ProductImages.FirstOrDefault().ThumbnailUrl"
+                                                                                 class="w-100 h-100 object-fit-cover rounded"
+                                                                                 alt="Ürün">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light rounded text-muted">
+                                                                                <i class="fa fa-image"></i>
+                                                                            </div>
+                                                                        }
+                                                                    </div>
+                                                                    <span class="fw-medium text-dark">
+                                                                        @(detail.Product?.Name ?? "Ürün Silinmiş")
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center text-muted">@detail.UnitPrice.ToString("C2")</td>
+                                                            <td class="text-center fw-bold">x @detail.Quantity</td>
+                                                            <td class="text-end pe-4 fw-bold text-primary">
+                                                                @((detail.UnitPrice * detail.Quantity).ToString("C2"))
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row justify-content-center py-5">
+                <div class="col-md-6 text-center">
+                    <div class="mb-4">
+                        <div class="d-inline-block rounded-circle bg-light p-5">
+                            <i class="fa fa-receipt text-muted" style="font-size: 4rem;"></i>
+                        </div>
+                    </div>
+                    <h3>Henüz Siparişiniz Yok</h3>
+                    <p class="text-muted mb-4">Lezzetli ürünlerimizi keşfetmeye ne dersiniz?</p>
+                    <a href="/Shop/Index" class="theme-btn-one">Alışverişe Başla</a>
+                </div>
+            </div>
+        }
+    </div>
+</section>

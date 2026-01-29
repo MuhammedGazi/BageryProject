@@ -4,11 +4,13 @@ using Bagery.Business.Features.Abouts.Commands.UpdateAbout;
 using Bagery.Business.Features.Abouts.Queries.GetAboutById;
 using Bagery.Business.Features.Abouts.Queries.GetAboutList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AboutController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()

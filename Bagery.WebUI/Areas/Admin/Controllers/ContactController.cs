@@ -4,11 +4,13 @@ using Bagery.Business.Features.Contacts.Commands.UpdateContact;
 using Bagery.Business.Features.Contacts.Queries.GetContactById;
 using Bagery.Business.Features.Contacts.Queries.GetContactList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ContactController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()

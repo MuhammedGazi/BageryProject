@@ -33,7 +33,7 @@
                     <div class="shop-block-one">
                         <div class="inner-box">
                             <figure class="image-box">
-                                <img src="@item.ProductImages.FirstOrDefault().ThumbnailUrl" alt="">
+                                <img src="@item.ProductImages.FirstOrDefault()?.ThumbnailUrl" alt="">
                             </figure>
                             <div class="lower-content">
                                 <span class="price-box">$@item.Price</span>

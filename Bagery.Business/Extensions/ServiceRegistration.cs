@@ -1,6 +1,8 @@
 ﻿using Bagery.Business.Behaviors;
+using Bagery.Business.Observers;
 using Bagery.Business.Services.CloudinaryServices;
 using Bagery.Business.Services.IAuthServices;
+using Bagery.Core.Interfaces.Observer;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -21,6 +23,10 @@ namespace Bagery.Business.Extensions
             services.AddScoped<ICloudinaryService, CloudinaryService>();
 
             services.AddScoped<IAuthServices, AuthServices>();
+
+            services.AddScoped<INotificationSubject, NotificationSubject>();
+
+            services.AddScoped<NotificationObserver>();
 
             return services;
         }

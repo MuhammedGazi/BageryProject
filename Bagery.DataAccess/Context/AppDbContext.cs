@@ -21,5 +21,6 @@ namespace Bagery.DataAccess.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Banner> Banners { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

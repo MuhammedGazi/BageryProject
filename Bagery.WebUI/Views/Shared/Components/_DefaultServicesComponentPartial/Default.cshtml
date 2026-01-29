@@ -1,6 +1,6 @@
-@* _DefaultServicesComponentPartial *@
+@using Bagery.Business.Features.Services.Queries.GetServiceList
+@model List<GetServiceListQueryResult>
 
-<!-- service-section -->
 <section class="service-section sec-pad centred" style="background-image: url(/Bagery/assets/images/background/service-1.jpg);">
     <div class="auto-container">
         <div class="sec-title">
@@ -8,67 +8,43 @@
             <h2>Quality & Passion with <br />our Services!</h2>
         </div>
         <div class="row clearfix">
-            <div class="col-lg-3 col-md-6 col-sm-12 service-block">
-                <div class="service-block-one">
-                    <div class="inner-box">
-                        <div class="icon-box wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                            <div class="bg-layer" style="background-image: url(/Bagery/assets/images/icons/icon-bg-3.png);"></div>
-                            <i class="icon-Ice-Cream"></i>
-                        </div>
-                        <div class="lower-content wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                            <h3><a href="service.html">Cone Ice Creams</a></h3>
-                            <p>Accusan enim ipsam voluptam quia voluptas sit aspern odit aut sed quia consequnt.</p>
-                            <div class="btn-box"><a href="service.html">Read More</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 service-block">
-                <div class="service-block-one">
-                    <div class="inner-box">
-                        <div class="icon-box wow fadeInDown animated animated" data-wow-delay="200ms" data-wow-duration="1500ms">
-                            <div class="bg-layer" style="background-image: url(/Bagery/assets/images/icons/icon-bg-3.png);"></div>
-                            <i class="icon-Bread"></i>
-                        </div>
-                        <div class="lower-content wow fadeInUp animated animated" data-wow-delay="200ms" data-wow-duration="1500ms">
-                            <h3><a href="service.html">Fresh Bread</a></h3>
-                            <p>Accusan enim ipsam voluptam quia voluptas sit aspern odit aut sed quia consequnt.</p>
-                            <div class="btn-box"><a href="service.html">Read More</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 service-block">
-                <div class="service-block-one">
-                    <div class="inner-box">
-                        <div class="icon-box wow fadeInDown animated animated" data-wow-delay="400ms" data-wow-duration="1500ms">
-                            <div class="bg-layer" style="background-image: url(/Bagery/assets/images/icons/icon-bg-3.png);"></div>
-                            <i class="icon-Cake"></i>
-                        </div>
-                        <div class="lower-content wow fadeInUp animated animated" data-wow-delay="400ms" data-wow-duration="1500ms">
-                            <h3><a href="service.html">Piece Cake</a></h3>
-                            <p>Accusan enim ipsam voluptam quia voluptas sit aspern odit aut sed quia consequnt.</p>
-                            <div class="btn-box"><a href="service.html">Read More</a></div>
+
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                // Her kartýn animasyonunun bir öncekinden 200ms sonra gelmesi için hesaplama
+                var animationDelay = i * 200;
+
+                <div class="col-lg-3 col-md-6 col-sm-12 service-block">
+                    <div class="service-block-one">
+                        <div class="inner-box">
+                            <div class="icon-box wow fadeInDown animated animated" data-wow-delay="@(animationDelay)ms" data-wow-duration="1500ms">
+                                <div class="bg-layer" style="background-image: url(/Bagery/assets/images/icons/icon-bg-3.png);"></div>
+
+                                @* Ýkon Resim mi yoksa Font Class mý kontrolü *@
+                                @if (!string.IsNullOrEmpty(item.IconUrl) && (item.IconUrl.Contains("/") || item.IconUrl.Contains("http")))
+                                {
+                                    <img src="@item.IconUrl" alt="@item.Title" style="max-width: 60px; max-height: 60px; display: inline-block; vertical-align: middle;">
+                                }
+                                else
+                                {
+                                    // Veri yoksa varsayýlan ikon, varsa gelen font class (örn: icon-Bread)
+                                    <i class="@(string.IsNullOrEmpty(item.IconUrl) ? "icon-Bread" : item.IconUrl)"></i>
+                                }
+                            </div>
+
+                            <div class="lower-content wow fadeInUp animated animated" data-wow-delay="@(animationDelay)ms" data-wow-duration="1500ms">
+                                <h3><a href="/Service/Index">@item.Title</a></h3>
+                                <p>@item.Description</p>
+                                <div class="btn-box">
+                                    <a href="/Service/Index">Read More</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 service-block">
-                <div class="service-block-one">
-                    <div class="inner-box">
-                        <div class="icon-box wow fadeInDown animated animated" data-wow-delay="600ms" data-wow-duration="1500ms">
-                            <div class="bg-layer" style="background-image: url(/Bagery/assets/images/icons/icon-bg-3.png);"></div>
-                            <i class="icon-Donuts"></i>
-                        </div>
-                        <div class="lower-content wow fadeInUp animated animated" data-wow-delay="600ms" data-wow-duration="1500ms">
-                            <h3><a href="service.html">Sweet Donuts</a></h3>
-                            <p>Accusan enim ipsam voluptam quia voluptas sit aspern odit aut sed quia consequnt.</p>
-                            <div class="btn-box"><a href="service.html">Read More</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
+
         </div>
     </div>
 </section>
-<!-- service-section end -->

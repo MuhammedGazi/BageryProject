@@ -1,10 +1,13 @@
 ﻿using Bagery.Business.DTOs.AuthDTOs;
 using Bagery.Business.Services.IAuthServices;
+using Bagery.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Controllers
 {
-    public class AuthController(IAuthServices _authServices) : Controller
+    public class AuthController(IAuthServices _authServices, UserManager<AppUser> _userManager) : Controller
     {
         [HttpGet]
         public IActionResult RegisterUser()
@@ -27,7 +30,25 @@ namespace Bagery.WebUI.Controllers
         public async Task<IActionResult> LogIn(LoginDto dto)
         {
             var result = await _authServices.LoginAsync(dto);
-            return result.Success ? RedirectToAction("Index", "About", new { area = "Admin" }) : View();
+            if (result.Success)
+            {
+                var user = await _userManager.FindByEmailAsync(dto.Email);
+                if (user != null)
+                {
+                    var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+                    if (isAdmin)
+                    {
+                        return RedirectToAction("Index", "About", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Promotion", new { area = "User" });
+                    }
+                }
+            }
+
+            return View();
         }
 
         public async Task<IActionResult> LogOut()

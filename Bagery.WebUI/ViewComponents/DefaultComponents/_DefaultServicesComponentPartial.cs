@@ -1,12 +1,15 @@
+using Bagery.Business.Features.Services.Queries.GetServiceList;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.ViewComponents.DefaultComponents
 {
-    public class _DefaultServicesComponentPartial : ViewComponent
+    public class _DefaultServicesComponentPartial(IMediator _mediator) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            var result = await _mediator.Send(new GetServiceListQuery());
+            return View(result.Data);
         }
     }
 }

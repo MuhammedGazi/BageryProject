@@ -1,12 +1,15 @@
+using Bagery.Business.Features.Products.Queries.GetProductList;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.ViewComponents.DefaultComponents
 {
-    public class _DefaultOurShopComponentPartial : ViewComponent
+    public class _DefaultOurShopComponentPartial(IMediator _mediator) : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View();
+            var result = await _mediator.Send(new GetProductListQuery());
+            return View(result.Data);
         }
     }
 }

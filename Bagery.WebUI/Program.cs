@@ -3,7 +3,6 @@ using Bagery.Core.Entities;
 using Bagery.DataAccess.Context;
 using Bagery.DataAccess.Extensions;
 using Bagery.WebUI.Middleware;
-using Elastic.Apm.AspNetCore;
 using Elastic.Apm.NetCoreAll;
 using Serilog;
 using Serilog.Exceptions;
@@ -102,6 +101,10 @@ try
 
     app.UseAuthorization();
 
+    app.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
     app.MapControllerRoute(
       name: "areas",
       pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"

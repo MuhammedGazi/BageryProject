@@ -23,8 +23,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @foreach (var item in Model)
         {
-            // İlk resmi yakalıyoruz (Resim modelindeki property adının 'ImageUrl' olduğunu varsayıyorum)
-            // Eğer modelindeki property adı farklıysa (örn: Path, FileName) burayı düzeltmen gerekebilir.
             var coverImage = item.ProductImages?.FirstOrDefault()?.ImageUrl;
 
             <div class="bg-bg-card border border-border-subtle rounded-xl overflow-hidden flex flex-col shadow-card hover:shadow-soft transition-all duration-300 group hover:-translate-y-1 relative">

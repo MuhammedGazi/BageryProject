@@ -4,11 +4,13 @@ using Bagery.Business.Features.Promotions.Commands.UpdatePromotion;
 using Bagery.Business.Features.Promotions.Queries.GetPromotionById;
 using Bagery.Business.Features.Promotions.Queries.GetPromotionList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PromotionController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()

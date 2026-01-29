@@ -4,12 +4,14 @@ using Bagery.Business.Features.ThreeStepServices.Commands.UpdateThreeStepService
 using Bagery.Business.Features.ThreeStepServices.Queries.GetThreeStepServiceById;
 using Bagery.Business.Features.ThreeStepServices.Queries.GetThreeStepServiceList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class ThreeStepServiceController(IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()

@@ -1,0 +1,143 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html class="light" lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Pastane Müşteri Paneli</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f42559",
+                        "primary-soft": "#ffeaef",
+                        "secondary": "#9c495e",
+                        "background-light": "#FFFBF2", /* Soft cream as requested */
+                        "background-dark": "#2d1a1e",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#3d252b",
+                        "accent-rose": "#FCE4EC",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    boxShadow: {
+                        "soft-pink": "0 10px 40px -10px rgba(244, 37, 89, 0.15)",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "2xl": "1.5rem",
+                        "3xl": "2rem", /* Requested rounding */
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #d1d5db;
+            }
+
+        .bg-pattern {
+            background-color: #FFFBF2;
+            background-image: radial-gradient(#f4255910 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#1c0d11] dark:text-white transition-colors duration-200">
+    <div class="flex h-screen w-full overflow-hidden bg-pattern relative">
+        <!-- Sidebar Container -->
+        <aside class="hidden md:flex flex-col w-72 h-full p-6">
+            <div class="flex flex-col h-full bg-card-light dark:bg-card-dark rounded-3xl shadow-soft-pink overflow-hidden">
+                <!-- User Profile -->
+                <div class="p-6 pb-2">
+                    <div class="flex flex-col items-center text-center gap-3 mb-6">
+                        <div class="relative group cursor-pointer">
+                            <div class="size-20 rounded-full overflow-hidden border-4 border-primary-soft">
+                                <img alt="Smiling young woman portrait" class="w-full h-full object-cover" data-alt="Profile picture of a customer named Ali" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBYu8fFhf2LudPI4OnN6Atf8EfD_-xDkrv9Vn5HHcx-aAwhMkTJ8N3MtdSfbP0hM8hGt13Tk76U0XnxEE4MzgMfObncez2qPgb2i4wgV24CvxrqQ6ZL6EMQyVE8HiymEQoUL-P6ArOOuxlmvFtEDGYbBRUmJ96v60wxV0pjWYIMqR7uJ-_AEnPC_LaFdiIFpRY5bQMsUyWjRDN7AxH0Bs966wunn42e9h8XDZ0Df54xdYv8IOf_mF-kcYzkSUygsH2Ri0b2wfckLY" />
+                            </div>
+                            <div class="absolute bottom-0 right-0 bg-primary text-white rounded-full p-1 border-2 border-white dark:border-card-dark">
+                                <span class="material-symbols-outlined text-[16px] leading-none block">edit</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Merhaba, Ali! 👋</h2>
+                            <span class="inline-flex items-center gap-1 px-3 py-1 mt-1 rounded-full bg-[#fdf2f4] dark:bg-[#522e37] text-primary text-xs font-bold uppercase tracking-wide">
+                                <span class="material-symbols-outlined text-[14px]">stars</span> Gold Üye
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <div class="flex-1 px-4 overflow-y-auto">
+                    <nav class="flex flex-col gap-2">
+                        <a class="flex items-center gap-4 px-4 py-3 rounded-full bg-primary text-white shadow-lg shadow-primary/30 transition-all hover:scale-[1.02]" href="#">
+                            <span class="material-symbols-outlined">shopping_bag</span>
+                            <span class="font-medium">Siparişlerim</span>
+                        </a>
+                        <a class="flex items-center gap-4 px-4 py-3 rounded-full text-secondary dark:text-gray-300 hover:bg-primary-soft dark:hover:bg-white/10 transition-colors group" href="#">
+                            <span class="material-symbols-outlined group-hover:text-primary transition-colors">favorite</span>
+                            <span class="font-medium">Favorilerim</span>
+                        </a>
+                        <a class="flex items-center gap-4 px-4 py-3 rounded-full text-secondary dark:text-gray-300 hover:bg-primary-soft dark:hover:bg-white/10 transition-colors group" href="#">
+                            <span class="material-symbols-outlined group-hover:text-primary transition-colors">confirmation_number</span>
+                            <span class="font-medium">Kuponlarım</span>
+                            <span class="ml-auto bg-primary/10 text-primary text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+                        </a>
+                        <a class="flex items-center gap-4 px-4 py-3 rounded-full text-secondary dark:text-gray-300 hover:bg-primary-soft dark:hover:bg-white/10 transition-colors group" href="#">
+                            <span class="material-symbols-outlined group-hover:text-primary transition-colors">support_agent</span>
+                            <span class="font-medium">Destek</span>
+                        </a>
+                        <a class="flex items-center gap-4 px-4 py-3 rounded-full text-secondary dark:text-gray-300 hover:bg-primary-soft dark:hover:bg-white/10 transition-colors group" href="#">
+                            <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                            <span class="font-medium">Ayarlar</span>
+                        </a>
+                    </nav>
+                </div>
+                <!-- Logout -->
+                <div class="p-6 mt-auto">
+                    <button class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-gray-200 dark:border-white/10 text-secondary dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors text-sm font-semibold">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Çıkış Yap</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        @RenderBody()
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

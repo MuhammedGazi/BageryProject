@@ -4,12 +4,14 @@ using Bagery.Business.Features.Categories.Commands.UpdateCategory;
 using Bagery.Business.Features.Categories.Queries.GetCategoryById;
 using Bagery.Business.Features.Categories.Queries.GetCategoryList;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bagery.WebUI.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController(IMediator _service) : Controller
     {
         public async Task<IActionResult> Index()

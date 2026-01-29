@@ -9,17 +9,19 @@ using Microsoft.Extensions.Logging;
 namespace Bagery.Business.Features.ProductImages.Commands.CreateProductImage
 {
     public class CreateProductImageCommandHandler(IGenericRepository<ProductImage> repository,
+                                                  IGenericRepository<Product> _productRepo,
                                                   ICloudinaryService _cloudinaryService,
                                                   ILogger<CreateProductImageCommandHandler> _logger,
                                                   IUnitOfWork _unitOfWork) : IRequestHandler<CreateProductImageCommand, IResult>
     {
         public async Task<IResult> Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
         {
+            var product = await _productRepo.GetByIdAsync(request.ProductId);
             ProductImage ýmage = new ProductImage();
             var result = false;
             if (request.ImageFile != null)
             {
-                var uploadResult = await _cloudinaryService.UploadImageAsync(request.ImageFile, "products");
+                var uploadResult = await _cloudinaryService.UploadImageAsync(request.ImageFile, $"products/{product.CategoryId}");
                 if (uploadResult.Success)
                 {
                     request.ImagePublicId = uploadResult.PublicId;

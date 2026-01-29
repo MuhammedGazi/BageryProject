@@ -5,6 +5,7 @@ using Bagery.Core.Interfaces.Repositories;
 using Bagery.Core.Utilities.Results;
 using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bagery.Business.Features.ProductImages.Queries.GetProductImageList
 {
@@ -12,7 +13,7 @@ namespace Bagery.Business.Features.ProductImages.Queries.GetProductImageList
     {
         public async Task<IDataResult<List<GetProductImageListQueryResult>>> Handle(GetProductImageListQuery request, CancellationToken cancellationToken)
         {
-            var photo = await repository.GetAllAsync(x => x.Product);
+            var photo = await repository.GetAllAsync(q => q.Include(x => x.Product).ThenInclude(x => x.Category).AsSplitQuery());
 
             var config = new TypeAdapterConfig();
             config.NewConfig<ProductImage, GetProductImageListQueryResult>();
