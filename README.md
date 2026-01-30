@@ -111,11 +111,5 @@ Projenin Admin paneli ve Kullanıcı arayüzünden görseller.
 <img width="1906" height="1066" alt="Image" src="https://github.com/user-attachments/assets/7b4c8928-82f2-4573-848e-312adf65a5a8" />
 <img width="1906" height="1075" alt="Image" src="https://github.com/user-attachments/assets/e3037377-4b6d-4b6f-b6da-8498d068bf87" />
 <img width="1919" height="957" alt="Image" src="https://github.com/user-attachments/assets/3c7d1719-c591-4322-b680-6347cd4e61e7" />
-
 </div>
 
-BageryProject
-├── 📂 Bagery.Core          # Varlıklar (Entities), Arayüzler ve DTO'lar
-├── 📂 Bagery.DataAccess    # Veritabanı Bağlantıları, Migrations ve Repository Uygulamaları
-├── 📂 Bagery.Business      # CQRS Handler'ları, Validasyonlar ve İş Mantığı
-└── 📂 Bagery.WebUI         # MVC Controller'lar, View'lar ve Area Yapısı (Admin/User)
