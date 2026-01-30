@@ -69,13 +69,6 @@ Projede kullanılan teknoloji yığını ve kütüphaneler aşağıda görselle�
 
 Proje 4 ana katmandan oluşmaktadır. Bu yapı sayesinde veritabanı nesneleri ile arayüz nesneleri birbirinden tamamen izole edilmiştir.
 
-```mermaid
-graph TD;
-    WebUI-->Business;
-    Business-->DataAccess;
-    Business-->Core;
-    DataAccess-->Core;
-
 🧩 Uygulanan Tasarım Desenleri (Design Patterns)
 CQRS (Command Query Responsibility Segregation):
 
