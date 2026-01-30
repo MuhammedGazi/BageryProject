@@ -6,186 +6,197 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<section class="page-title" style="background-image: url(/Bagery/assets/images/background/page-title.jpg);">
-    <div class="auto-container">
-        <div class="title-outer">
-            <h1>Siparişlerim</h1>
-            <ul class="page-breadcrumb">
-                <li><a href="/Home/Index">Anasayfa</a></li>
-                <li>Siparişlerim</li>
-            </ul>
+<main class="flex-1 h-full overflow-y-auto p-6 md:p-10 scroll-smooth">
+
+    <div class="flex flex-col xl:flex-row gap-8 justify-between items-start xl:items-center mb-10">
+        <div>
+            <h1 class="text-3xl font-bold text-[#1c0d11] dark:text-white mb-2 tracking-tight">Siparişlerim</h1>
+            <p class="text-secondary dark:text-gray-400 font-medium">Geçmiş ve aktif tüm siparişleriniz.</p>
+        </div>
+
+        <div class="flex gap-4 w-full xl:w-auto">
+            <div class="flex-1 xl:flex-none bg-card-light dark:bg-card-dark p-5 rounded-3xl shadow-sm border border-primary/5 flex items-center gap-4 min-w-[180px]">
+                <div class="p-3 bg-primary-soft rounded-2xl text-primary">
+                    <span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-secondary/70 uppercase tracking-wider mb-1">Toplam</p>
+                    <p class="text-2xl font-black text-primary">@Model.Count()</p>
+                </div>
+            </div>
+
+            <div class="flex-1 xl:flex-none bg-card-light dark:bg-card-dark p-5 rounded-3xl shadow-sm border border-primary/5 flex items-center gap-4 min-w-[180px]">
+                <div class="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-2xl text-amber-500">
+                    <span class="material-symbols-outlined text-[24px]">hourglass_top</span>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-secondary/70 uppercase tracking-wider mb-1">Hazırlanan</p>
+                    <p class="text-2xl font-black text-amber-500">
+                        @Model.Count(x => x.OrderStatus == OrderStatus.Hazirlaniyor)
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</section>
 
-<section class="cart-section">
-    <div class="auto-container">
+    @if (Model != null && Model.Any())
+    {
+        <div class="flex flex-col gap-6 pb-10">
+            @foreach (var order in Model.OrderByDescending(x => x.Date))
+            {
+                <div class="bg-card-light dark:bg-card-dark rounded-[2rem] p-6 md:p-8 shadow-sm hover:shadow-soft-pink border border-primary/5 transition-all duration-300 group">
 
-        <div class="row mb-5">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
-                            <i class="fa fa-shopping-bag text-primary fs-4"></i>
+                    <div class="flex flex-col lg:flex-row gap-6 justify-between items-start lg:items-center">
+
+                        <div class="flex gap-5 items-center w-full lg:w-auto">
+                            <div class="size-16 rounded-2xl bg-[#FFFBF2] dark:bg-white/5 border border-primary/10 flex items-center justify-center text-xl font-black text-primary/40 group-hover:text-primary transition-colors">
+                                #@order.Id
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold text-xl text-[#1c0d11] dark:text-white mb-1 group-hover:text-primary transition-colors">
+                                    Sipariş #@order.Id
+                                </h3>
+                                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-secondary dark:text-gray-400 font-medium">
+                                    <span class="flex items-center gap-1.5 bg-primary-soft/50 px-2 py-1 rounded-lg text-primary-800">
+                                        <span class="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+                                        @order.Date.ToString("dd MMM yyyy, HH:mm")
+                                    </span>
+                                    <span class="font-bold text-primary text-base">@order.TotalPrice.ToString("C2")</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h6 class="text-muted mb-1">Toplam Sipariş</h6>
-                            <h3 class="fw-bold mb-0">@Model.Count()</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body d-flex align-items-center">
-                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
-                            <i class="fa fa-clock text-warning fs-4"></i>
-                        </div>
-                        <div>
-                            <h6 class="text-muted mb-1">Hazırlanan</h6>
-                            <h3 class="fw-bold mb-0 text-warning">
-                                @Model.Count(x => x.OrderStatus == OrderStatus.Hazirlaniyor)
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        @if (Model != null && Model.Any())
-        {
-            <div class="row">
-                <div class="col-12">
-                    @foreach (var order in Model.OrderByDescending(x => x.Date))
-                    {
-                        <div class="card border-0 shadow-sm mb-4 overflow-hidden">
-                            <div class="card-header bg-white border-bottom p-4">
-                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end">
 
-                                    <div class="d-flex align-items-center">
-                                        <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center me-3"
-                                             style="width: 50px; height: 50px;">
-                                            <span class="fw-bold text-dark">#@order.Id</span>
-                                        </div>
-                                        <div>
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <h5 class="mb-0 fw-bold text-dark">Sipariş #@order.Id</h5>
-                                                @{
-                                                    string badgeClass = order.OrderStatus switch
-                                                    {
-                                                        OrderStatus.Hazirlaniyor => "bg-warning text-dark",
-                                                        OrderStatus.Kargoda => "bg-info text-white",
-                                                        OrderStatus.TeslimEdildi => "bg-success",
-                                                        OrderStatus.IptalEdildi => "bg-danger",
-                                                        _ => "bg-secondary"
-                                                    };
-                                                }
-                                                <span class="badge rounded-pill @badgeClass">@order.OrderStatus</span>
-                                            </div>
-                                            <small class="text-muted">
-                                                <i class="fa fa-calendar me-1"></i> @order.Date.ToString("dd MMMM yyyy, HH:mm")
-                                                <span class="mx-2">•</span>
-                                                <span class="fw-bold text-primary">@order.TotalPrice.ToString("C2")</span>
-                                            </small>
-                                        </div>
-                                    </div>
+                            @{
+                                string statusStyle = order.OrderStatus switch
+                                {
+                                    OrderStatus.Hazirlaniyor => "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
+                                    OrderStatus.Kargoda => "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800",
+                                    OrderStatus.TeslimEdildi => "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800",
+                                    OrderStatus.IptalEdildi => "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800",
+                                    _ => "bg-gray-100 text-gray-700 border-gray-200"
+                                };
+                            }
+                            <span class="px-4 py-2 rounded-xl text-sm font-bold border @statusStyle flex items-center gap-2 shadow-sm">
+                                <span class="size-2 rounded-full bg-current animate-pulse"></span>
+                                @order.OrderStatus
+                            </span>
 
-                                    <div class="d-flex gap-2">
-                                        @if (order.OrderStatus == OrderStatus.Hazirlaniyor)
-                                        {
-                                            <form action="/Order/CancelOrder" method="post" onsubmit="return confirm('Bu siparişi iptal etmek istediğinize emin misiniz?');">
-                                                <input type="hidden" name="orderId" value="@order.Id" />
-                                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-2 d-flex align-items-center gap-2">
-                                                    <i class="fa fa-times"></i> İptal Et
-                                                </button>
-                                            </form>
-                                        }
-
-                                        <button class="btn btn-light btn-sm px-3 py-2 d-flex align-items-center gap-2"
-                                                type="button"
-                                                data-bs-toggle="collapse"
-                                                data-bs-target="#collapseOrder-@order.Id">
-                                            Detaylar <i class="fa fa-chevron-down"></i>
+                            <div class="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                                @if (order.OrderStatus == OrderStatus.Hazirlaniyor)
+                                {
+                                    <form action="/User/Order/CancelOrder" method="post" class="flex-1 sm:flex-none" onsubmit="return confirm('Siparişi iptal etmek istediğinize emin misiniz?');">
+                                        <input type="hidden" name="orderId" value="@order.Id" />
+                                        <button type="submit" class="w-full sm:w-auto h-11 px-5 rounded-xl border-2 border-red-100 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-red-900/30 dark:text-red-400 font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 group/cancel">
+                                            <span class="material-symbols-outlined text-[20px]">block</span>
+                                            İptal
                                         </button>
-                                    </div>
-                                </div>
-                            </div>
+                                    </form>
+                                }
 
-                            <div class="collapse" id="collapseOrder-@order.Id">
-                                <div class="card-body bg-light p-4">
-                                    <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
-                                        <i class="fa fa-shopping-basket text-primary"></i> Sepet İçeriği
-                                    </h6>
-
-                                    <div class="table-responsive bg-white rounded border">
-                                        <table class="table table-borderless mb-0 align-middle">
-                                            <thead class="bg-light border-bottom">
-                                                <tr>
-                                                    <th class="ps-4">Ürün</th>
-                                                    <th class="text-center">Birim Fiyat</th>
-                                                    <th class="text-center">Adet</th>
-                                                    <th class="text-end pe-4">Toplam</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if (order.OrderDetails != null)
-                                                {
-                                                    foreach (var detail in order.OrderDetails)
-                                                    {
-                                                        <tr>
-                                                            <td class="ps-4">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="rounded border p-1 me-3" style="width: 50px; height: 50px;">
-                                                                        @if (detail.Product?.ProductImages?.FirstOrDefault() != null)
-                                                                        {
-                                                                            <img src="@detail.Product.ProductImages.FirstOrDefault().ThumbnailUrl"
-                                                                                 class="w-100 h-100 object-fit-cover rounded"
-                                                                                 alt="Ürün">
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-light rounded text-muted">
-                                                                                <i class="fa fa-image"></i>
-                                                                            </div>
-                                                                        }
-                                                                    </div>
-                                                                    <span class="fw-medium text-dark">
-                                                                        @(detail.Product?.Name ?? "Ürün Silinmiş")
-                                                                    </span>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center text-muted">@detail.UnitPrice.ToString("C2")</td>
-                                                            <td class="text-center fw-bold">x @detail.Quantity</td>
-                                                            <td class="text-end pe-4 fw-bold text-primary">
-                                                                @((detail.UnitPrice * detail.Quantity).ToString("C2"))
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                <button onclick="toggleDetails(@order.Id)" class="flex-1 sm:flex-none h-11 px-6 rounded-xl bg-primary text-white hover:bg-secondary font-bold text-sm transition-all duration-200 shadow-soft-pink hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                                    Detay
+                                    <span id="chevron-@order.Id" class="material-symbols-outlined text-[20px] transition-transform duration-300">expand_more</span>
+                                </button>
                             </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-        else
-        {
-            <div class="row justify-content-center py-5">
-                <div class="col-md-6 text-center">
-                    <div class="mb-4">
-                        <div class="d-inline-block rounded-circle bg-light p-5">
-                            <i class="fa fa-receipt text-muted" style="font-size: 4rem;"></i>
                         </div>
                     </div>
-                    <h3>Henüz Siparişiniz Yok</h3>
-                    <p class="text-muted mb-4">Lezzetli ürünlerimizi keşfetmeye ne dersiniz?</p>
-                    <a href="/Shop/Index" class="theme-btn-one">Alışverişe Başla</a>
+
+                    <div id="details-@order.Id" class="hidden mt-8 pt-6 border-t border-primary/10">
+                        <h4 class="font-bold text-[#1c0d11] dark:text-white mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">shopping_basket</span>
+                            Sepet İçeriği
+                        </h4>
+
+                        <div class="overflow-hidden rounded-2xl border border-primary/5">
+                            <table class="w-full text-left">
+                                <thead class="bg-primary-soft/30 dark:bg-white/5">
+                                    <tr class="text-xs text-secondary uppercase tracking-wider">
+                                        <th class="py-3 px-4 font-bold">Ürün</th>
+                                        <th class="py-3 px-4 font-bold text-center">Birim</th>
+                                        <th class="py-3 px-4 font-bold text-center">Adet</th>
+                                        <th class="py-3 px-4 font-bold text-right">Tutar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-primary/5">
+                                    @if (order.OrderDetails != null)
+                                    {
+                                        foreach (var item in order.OrderDetails)
+                                        {
+                                            <tr class="text-sm hover:bg-white/50 dark:hover:bg-white/5 transition-colors">
+                                                <td class="py-3 px-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="size-12 rounded-xl bg-white dark:bg-white/5 border border-primary/10 overflow-hidden flex-shrink-0 p-0.5">
+                                                            @if (item.Product?.ProductImages?.FirstOrDefault() != null)
+                                                            {
+                                                                <img src="@item.Product.ProductImages.FirstOrDefault().ThumbnailUrl" class="w-full h-full object-cover rounded-lg" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="w-full h-full flex items-center justify-center text-primary/30">
+                                                                    <span class="material-symbols-outlined text-[20px]">cake</span>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <span class="font-bold text-[#1c0d11] dark:text-white">
+                                                            @(item.Product?.Name ?? "Ürün Silinmiş")
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td class="py-3 px-4 text-center text-secondary">@item.UnitPrice.ToString("C2")</td>
+                                                <td class="py-3 px-4 text-center font-bold bg-primary-soft/20 rounded-lg text-primary">x @item.Quantity</td>
+                                                <td class="py-3 px-4 text-right font-black text-[#1c0d11] dark:text-white">
+                                                    @((item.UnitPrice * item.Quantity).ToString("C2"))
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="flex flex-col items-center justify-center h-[60vh] text-center">
+            <div class="size-28 rounded-full bg-primary-soft flex items-center justify-center mb-6 animate-bounce">
+                <span class="material-symbols-outlined text-5xl text-primary">receipt_long</span>
             </div>
+            <h3 class="text-2xl font-bold text-[#1c0d11] dark:text-white mb-2">Henüz Sipariş Yok</h3>
+            <p class="text-secondary max-w-md mx-auto mb-8">Henüz fırınımızdan çıkan taze lezzetlerle tanışmadınız mı?</p>
+            <a href="/Shop/Index" class="px-8 py-4 bg-primary hover:bg-secondary text-white font-bold rounded-2xl transition-all transform hover:scale-105 shadow-soft-pink flex items-center gap-2">
+                <span class="material-symbols-outlined">storefront</span>
+                Alışverişe Başla
+            </a>
+        </div>
+    }
+</main>
+
+@section Scripts {
+    <script>
+        function toggleDetails(id) {
+            const details = document.getElementById(`details-${id}`);
+            const chevron = document.getElementById(`chevron-${id}`);
+
+            if (details.classList.contains('hidden')) {
+                // Açılıyor
+                details.classList.remove('hidden');
+                // Animasyon ekle (Fade in)
+                details.animate([
+                    { opacity: 0, transform: 'translateY(-10px)' },
+                    { opacity: 1, transform: 'translateY(0)' }
+                ], { duration: 300, easing: 'ease-out' });
+
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                // Kapanıyor
+                details.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
         }
-    </div>
-</section>
+    </script>
+}

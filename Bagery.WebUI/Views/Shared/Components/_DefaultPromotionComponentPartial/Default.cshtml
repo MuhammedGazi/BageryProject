@@ -1,11 +1,11 @@
 @using Bagery.Business.Features.Promotions.Queries.GetPromotionList
 @model List<GetPromotionListQueryResult>
 
-<section class="promotion-section sec-pad" style="background-image: url(/Bagery/assets/images/background/promotion-1.jpg);">
+<section class="promotion-section sec-pad" style="background-image: url('https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769805354/promotion-1_z2swrc.jpg');">
     <div class="auto-container">
         <div class="sec-title centred">
-            <p>Promotion</p>
-            <h2>Check all Flavours <br />Summer Promo</h2>
+            <p>Kampanyalar</p>
+            <h2>Tüm Lezzetleri Keþfedin <br />Yaz Kampanyasý</h2>
         </div>
 
         @for (int i = 0; i < Model.Count; i++)
@@ -19,20 +19,20 @@
                     <div class="row clearfix">
                         <div class="col-lg-6 col-md-12 col-sm-12 image-column">
                             <div class="image-box clearfix mr-10">
-                                <figure class="image pull-left mr-10"><img src="~/Bagery/assets/images/resource/promotion-1.jpg" alt=""></figure>
-                                <figure class="image pull-left"><img src="~/Bagery/assets/images/resource/promotion-2.jpg" alt=""></figure>
+                                <figure class="image pull-left mr-10"><img src="https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769806073/promotion-2_p6w2zd.jpg" alt=""></figure>
+                                <figure class="image pull-left"><img src="https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769806073/promotion-1_hcwt6e.jpg" alt=""></figure>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 content-column">
                             <div class="content-box ml-10">
                                 <div class="price-box" style="background-image: url(@(string.IsNullOrEmpty(item.IconUrl) ? "/Bagery/assets/images/icons/icon-bg-4.png" : item.IconUrl));">
                                     <span>$@item.Price.ToString("0.##")</span>
-                                    <p>Only</p>
+                                    <p>Sadece</p>
                                 </div>
                                 <h3>@Html.Raw(item.Title)</h3>
                                 <p>@item.Description</p>
                                 <div class="btn-box">
-                                    <a href="/Shop/Index" class="theme-btn-two">Let’s Order Now</a>
+                                    <a href="/Shop/Index" class="theme-btn-two">Þimdi Sipariþ Ver</a>
                                 </div>
                             </div>
                         </div>
@@ -48,18 +48,18 @@
                             <div class="content-box mr-10">
                                 <div class="price-box" style="background-image: url(@(string.IsNullOrEmpty(item.IconUrl) ? "/Bagery/assets/images/icons/icon-bg-4.png" : item.IconUrl));">
                                     <span>$@item.Price.ToString("0.##")</span>
-                                    <p>Only</p>
+                                    <p>Sadece</p>
                                 </div>
                                 <h3>@Html.Raw(item.Title)</h3>
                                 <p>@item.Description</p>
                                 <div class="btn-box">
-                                    <a href="/Shop/Index" class="theme-btn-two">Let’s Order Now</a>
+                                    <a href="/Shop/Index" class="theme-btn-two">Þimdi Sipariþ Ver</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 image-column">
                             <div class="image-box ml-10">
-                                <figure class="image"><img src="~/Bagery/assets/images/resource/promotion-3.jpg" alt=""></figure>
+                                <figure class="image"><img src="https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769806073/promotion-3_zr0vxt.jpg" alt=""></figure>
                             </div>
                         </div>
                     </div>

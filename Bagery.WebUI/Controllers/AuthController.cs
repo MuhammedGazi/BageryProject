@@ -1,7 +1,6 @@
 ﻿using Bagery.Business.DTOs.AuthDTOs;
 using Bagery.Business.Services.IAuthServices;
 using Bagery.Core.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,7 +53,7 @@ namespace Bagery.WebUI.Controllers
         public async Task<IActionResult> LogOut()
         {
             var result = await _authServices.LogoutAsync();
-            return result.Success ? RedirectToAction("Index", "Home") : View();
+            return result.Success ? RedirectToAction("Index", "Default") : View();
         }
     }
 }

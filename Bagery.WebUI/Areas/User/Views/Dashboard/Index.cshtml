@@ -2,6 +2,7 @@
 @using Bagery.Business.Features.Products.Queries.GetProductList
 @using Bagery.Core.Consts
 @using Bagery.WebUI.Areas.User.Controllers
+@using Bagery.WebUI.Areas.User.Models
 @model UserDashboardDto
 
 @{
@@ -27,12 +28,12 @@
                 <h1 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Hoş Geldin!</h1>
                 <p class="text-secondary dark:text-gray-400 text-lg">Bugün canın tatlı mı çekiyor? 🥐</p>
             </div>
-            <button class="flex items-center gap-2 bg-white dark:bg-card-dark text-gray-900 dark:text-white px-6 py-3 rounded-full font-bold shadow-sm hover:shadow-md transition-all active:scale-95 group border border-gray-100 dark:border-gray-700">
+            <a href="/Shop/Index/" class="flex items-center gap-2 bg-white dark:bg-card-dark text-gray-900 dark:text-white px-6 py-3 rounded-full font-bold shadow-sm hover:shadow-md transition-all active:scale-95 group border border-gray-100 dark:border-gray-700">
                 <span class="bg-primary/10 text-primary p-1 rounded-full group-hover:bg-primary group-hover:text-white transition-colors">
                     <span class="material-symbols-outlined text-[20px] block">add</span>
                 </span>
                 Yeni Sipariş Oluştur
-            </button>
+            </a>
         </header>
 
         <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -126,7 +127,7 @@
                                                 @foreach (var detail in order.OrderDetails)
                                                 {
                                                     <li class="flex justify-between border-b border-gray-200 dark:border-gray-700 pb-1 last:border-0">
-                                                        <span>Ürün #@detail.ProductId</span>
+                                                        <span>Ürün #@detail.Product.Name</span>
                                                         <span class="font-bold">x @detail.Quantity</span>
                                                     </li>
                                                 }

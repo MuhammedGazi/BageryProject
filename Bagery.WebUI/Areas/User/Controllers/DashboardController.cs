@@ -3,7 +3,9 @@ using Bagery.Business.Features.Products.Queries.GetProductList;
 using Bagery.Core.Consts;
 using Bagery.Core.Entities;
 using Bagery.DataAccess.Context;
+using Bagery.WebUI.Areas.User.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Bagery.WebUI.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize(Roles = "User")]
     public class DashboardController(AppDbContext _appDbContext, UserManager<AppUser> _userManager, IMediator _mediator) : Controller
     {
         public async Task<IActionResult> Index()
@@ -26,14 +29,5 @@ namespace Bagery.WebUI.Areas.User.Controllers
             dto.ProductList = reselt2.Data;
             return View(dto);
         }
-    }
-
-    public class UserDashboardDto
-    {
-        public int ActiveCount { get; set; }
-        public int PromotionCount { get; set; }
-        public decimal PaymentCount { get; set; }
-        public List<GetOrderListQueryResult> OrderList { get; set; }
-        public List<GetProductListQueryResult> ProductList { get; set; }
     }
 }

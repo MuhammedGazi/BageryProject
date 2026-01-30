@@ -5,7 +5,7 @@
 }
 
 <!--Page Title-->
-<section class="page-title centred" style="background-image: url(/Bagery/assets/images/background/page-title.jpg);">
+<section class="page-title centred" style="background-image: url('https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769805399/page-title_j1dhrd.jpg');">
     <div class="auto-container">
         <div class="content-box">
             <div class="title">
@@ -25,6 +25,8 @@
     <div class="cart-btn">
         <a asp-controller="Shop" asp-action="ShopBasket" class="theme-btn-two">Sepete Git</a>
     </div>
+    <br />
+    <br />
     <div class="auto-container">
         <div class="row clearfix">
             @foreach(var item in Model)

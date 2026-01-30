@@ -13,10 +13,10 @@ namespace Bagery.Business.Features.Contacts.Commands.DeleteContact
     {
         public async Task<IResult> Handle(DeleteContactCommand request, CancellationToken cancellationToken)
         {
-            var contact = await repository.GetByIdAsync(request.Id);
+            var contact = await repository.GetByIdAsync(request.ContactId);
             if (contact is null)
             {
-                _logger.LogError(Messages.ContactDeletedFailed, request.Id);
+                _logger.LogError(Messages.ContactDeletedFailed, request.ContactId);
                 return new ErrorResult(Messages.ContactNotFound);
             }
             repository.Delete(contact);

@@ -1,24 +1,25 @@
 @* _DefaultContactComponentPartial *@
+@using Bagery.Business.Features.Contacts.Commands.CreateContact
+@model CreateContactCommand
 
-<!-- contact-section -->
-<section class="contact-section sec-pad" style="background-image: url(/Bagery/assets/images/background/contact-1.jpg);">
+<section class="contact-section sec-pad" style="background-image: url('https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769805353/contact-1_dr9bsn.jpg');">
     <div class="auto-container">
         <div class="sec-title centred">
-            <p>Contact us</p>
-            <h2>Get In Touch</h2>
+            <p>Bize Ulaþýn</p>
+            <h2>Ýletiþime Geçin</h2>
         </div>
         <div class="row clearfix">
             <div class="col-lg-4 col-md-6 col-sm-12 info-column">
                 <div class="contact-info-inner">
                     <div class="single-box">
-                        <h3>Opening hours</h3>
+                        <h3>Çalýþma Saatleri</h3>
                         <ul class="list clearfix">
-                            <li>Daily: 9.30 AM–6.00 PM</li>
-                            <li>Sunday & Holidays: Closed</li>
+                            <li>Hergün: 09:30 – 18:00</li>
+                            <li>Pazar & Tatiller: Kapalý</li>
                         </ul>
                     </div>
                     <div class="single-box">
-                        <h3>Contact info</h3>
+                        <h3>Ýletiþim Bilgileri</h3>
                         <ul class="list clearfix">
                             <li>77408 Satterfield Motorway Suite 469 New Antonetta, BC K3L6P6</li>
                             <li><a href="mailto:example@info.com">example@info.com</a></li>
@@ -26,38 +27,39 @@
                         </ul>
                     </div>
                     <div class="single-box">
-                        <h3>Social contact</h3>
+                        <h3>Sosyal Medya</h3>
                         <ul class="social-links clearfix">
-                            <li><a href="index.html"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="index.html"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
-                            <li><a href="index.html"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-8 col-md-6 col-sm-12 form-column">
                 <div class="form-inner">
-                    <h3>Drop us a line</h3>
-                    <form method="post" action="sendemail.php" id="contact-form" class="default-form">
+                    <h3>Bize Yazýn</h3>
+                    <form method="post" action="/Default/Contact" id="contact-form" class="default-form">
                         <div class="row clearfix">
                             <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="text" name="username" placeholder="Your Name *" required="">
+                                <input type="text" name="FullName" placeholder="Adýnýz Soyadýnýz *" required="">
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <input type="email" name="email" placeholder="Your Email *" required="">
+                                <input type="email" name="Email" placeholder="E-Posta Adresiniz *" required="">
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                <input type="text" name="phone" required="" placeholder="Your Phone">
+                                <input type="text" name="PhoneNumber" required="" placeholder="Telefon Numaranýz">
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                <input type="text" name="subject" required="" placeholder="Subject">
+                                <input type="text" name="Subject" required="" placeholder="Konu">
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                <textarea name="message" placeholder="Your Message ..."></textarea>
+                                <textarea name="Message" placeholder="Mesajýnýz ..."></textarea>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12 form-group message-btn">
-                                <button class="theme-btn-one" type="submit" name="submit-form">Submit Now</button>
+                                <button class="theme-btn-one" type="submit" name="submit-form">Gönder</button>
                             </div>
                         </div>
                     </form>
@@ -66,4 +68,3 @@
         </div>
     </div>
 </section>
-<!-- contact-section end -->

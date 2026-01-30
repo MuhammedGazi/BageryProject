@@ -1,5 +1,6 @@
 ﻿using Bagery.Core.Entities;
 using Bagery.DataAccess.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Bagery.WebUI.Areas.User.Controllers
 {
     [Area("User")]
+    [Authorize(Roles = "User")]
     public class PromotionController(AppDbContext _context, UserManager<AppUser> _userManager) : Controller
     {
         public async Task<IActionResult> Index()

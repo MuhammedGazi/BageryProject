@@ -4,98 +4,85 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
-<section class="cart-section bg-light" style="padding: 80px 0;">
-    <div class="auto-container">
+<main class="flex-1 h-full overflow-y-auto p-6 md:p-10 scroll-smooth">
 
-        <div class="row mb-4 align-items-center">
-            <div class="col-md-6">
-                <h3 class="fw-bold text-dark m-0">
-                    <i class="fa fa-bell text-warning me-2"></i>Bildirim Merkezi
-                </h3>
-            </div>
-            <div class="col-md-6 text-end">
-                <span class="badge bg-secondary rounded-pill fs-6 px-3 py-2">
-                    Toplam: @Model.Count
-                </span>
-            </div>
+    <div class="flex flex-col md:flex-row gap-6 justify-between items-start md:items-center mb-10">
+        <div>
+            <h1 class="text-3xl font-bold text-[#1c0d11] dark:text-white mb-2 tracking-tight">Bildirim Merkezi</h1>
+            <p class="text-secondary dark:text-gray-400 font-medium">Tüm duyuru ve kampanya bildirimleriniz.</p>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12">
-
-                @if (Model == null || Model.Count == 0)
-                {
-                    /* --- BİLDİRİM YOKSA GÖZÜKECEK ALAN --- */
-                    <div class="card border-0 shadow-sm text-center py-5">
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <span class="fa-stack fa-2x text-muted">
-                                    <i class="fa fa-circle fa-stack-2x" style="color: #e9ecef;"></i>
-                                    <i class="fa fa-bell-slash fa-stack-1x"></i>
-                                </span>
-                            </div>
-                            <h4 class="text-muted">Henüz bir bildiriminiz yok.</h4>
-                            <p class="text-muted mb-4">Kampanyalarımızdan haberdar olduğunuzda burada listelenecektir.</p>
-                            <a href="/Shop/Index" class="theme-btn-one">Alışverişe Başla</a>
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="notification-list">
-                        @foreach (var item in Model)
-                        {
-                            /* Okunmamışsa sol tarafı kalın renkli çizgi, okunmuşsa gri */
-                            string borderClass = !item.IsRead ? "border-start border-5 border-warning bg-white" : "border-start border-5 border-secondary bg-light opacity-75";
-                            string iconClass = !item.IsRead ? "fa-envelope-open-text text-warning" : "fa-check-circle text-muted";
-                            string titleClass = !item.IsRead ? "text-dark fw-bold" : "text-muted";
-
-                            <div class="card mb-3 shadow-sm @borderClass" style="transition: all 0.3s ease;">
-                                <div class="card-body p-4">
-                                    <div class="d-flex align-items-start">
-
-                                        <div class="flex-shrink-0 me-3 mt-1">
-                                            <div class="rounded-circle d-flex align-items-center justify-content-center"
-                                                 style="width: 50px; height: 50px; background-color: #f8f9fa;">
-                                                <i class="fa @iconClass fs-4"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-grow-1">
-                                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                                <h5 class="@titleClass mb-0" style="font-size: 1.1rem;">
-                                                    @item.Title
-                                                    @if (!item.IsRead)
-                                                    {
-                                                        <span class="badge bg-danger ms-2" style="font-size: 0.65rem; vertical-align: middle;">YENİ</span>
-                                                    }
-                                                </h5>
-                                                <small class="text-muted d-flex align-items-center">
-                                                    <i class="fa fa-clock me-1"></i>
-                                                    @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
-                                                </small>
-                                            </div>
-
-                                            <p class="card-text text-secondary mb-0" style="font-size: 0.95rem; line-height: 1.6;">
-                                                @item.Message
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
-            </div>
+        <div class="bg-card-light dark:bg-card-dark px-6 py-3 rounded-2xl shadow-sm border border-primary/5 flex items-center gap-3">
+            <span class="size-2 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-sm font-bold text-secondary uppercase tracking-wide">Toplam:</span>
+            <span class="text-xl font-black text-primary">@Model.Count</span>
         </div>
     </div>
-</section>
 
-@section Styles {
-    <style>
-        .notification-list .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    <div class="flex flex-col gap-4 pb-10">
+        @if (Model == null || Model.Count == 0)
+        {
+            <div class="flex flex-col items-center justify-center h-[50vh] text-center p-8 bg-card-light dark:bg-card-dark rounded-[2rem] border border-dashed border-primary/10">
+                <div class="size-24 rounded-full bg-primary-soft flex items-center justify-center mb-6">
+                    <span class="material-symbols-outlined text-5xl text-primary/40">notifications_off</span>
+                </div>
+                <h3 class="text-2xl font-bold text-[#1c0d11] dark:text-white mb-2">Henüz bildiriminiz yok</h3>
+                <p class="text-secondary max-w-md mx-auto mb-8">Kampanyalar ve sipariş durumlarınızla ilgili güncellemeler burada listelenecektir.</p>
+                <a href="/Shop/Index" class="px-8 py-3 bg-primary hover:bg-secondary text-white font-bold rounded-2xl transition-all shadow-soft-pink flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">storefront</span>
+                    Alışverişe Başla
+                </a>
+            </div>
         }
-    </style>
-}
+        else
+        {
+            @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
+            {
+                // Okunmamışsa belirgin, okunmuşsa soluk stil
+                string cardStyle = !item.IsRead
+                ? "bg-card-light dark:bg-card-dark border-l-4 border-l-primary shadow-soft-pink"
+                : "bg-[#FFFBF2]/50 dark:bg-white/5 border-l-4 border-l-gray-300 dark:border-l-gray-700 opacity-90";
+
+                string iconBg = !item.IsRead ? "bg-primary-soft text-primary" : "bg-gray-100 dark:bg-white/10 text-gray-400";
+                string titleColor = !item.IsRead ? "text-[#1c0d11] dark:text-white" : "text-gray-500 dark:text-gray-400";
+                string iconName = !item.IsRead ? "mark_email_unread" : "mark_email_read";
+
+                <div class="@cardStyle p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-t-0 border-r-0 border-b-0 border-gray-100 dark:border-gray-800 group relative overflow-hidden">
+
+                    <div class="flex items-start gap-5">
+                        <div class="size-14 rounded-2xl @iconBg flex items-center justify-center flex-shrink-0 transition-colors">
+                            <span class="material-symbols-outlined text-[28px]">@iconName</span>
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
+                                <h3 class="text-lg font-bold @titleColor truncate pr-4">
+                                    @item.Title
+                                </h3>
+
+                                <span class="flex items-center gap-1 text-xs font-bold text-secondary/60 bg-white/50 dark:bg-black/20 px-2 py-1 rounded-lg whitespace-nowrap">
+                                    <span class="material-symbols-outlined text-[14px]">schedule</span>
+                                    @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                                </span>
+                            </div>
+
+                            <p class="text-secondary dark:text-gray-400 text-sm leading-relaxed">
+                                @item.Message
+                            </p>
+                        </div>
+                    </div>
+
+                    @if (!item.IsRead)
+                    {
+                        <div class="absolute top-4 right-4">
+                            <span class="flex size-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                <span class="relative inline-flex rounded-full size-3 bg-primary"></span>
+                            </span>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</main>

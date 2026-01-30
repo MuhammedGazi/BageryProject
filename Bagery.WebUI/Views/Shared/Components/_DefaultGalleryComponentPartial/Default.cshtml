@@ -2,14 +2,11 @@
 @model List<GetProductImageListQueryResult>
 
 @{
-    // Verileri Kategori ID'sine göre grupluyoruz.
-    // Her grubun ilk elemanýndan Kategori Adýný alýyoruz.
     var galleryGroups = Model
-        .GroupBy(x => x.Product.Category.Id) // veya x.Product.CategoryId 
+        .GroupBy(x => x.Product.Category.Id)
         .Select(g => new
         {
             CategoryId = g.Key,
-            // NOT: Eðer Product içinde Category nesnesi yoksa burayý g.First().Product.CategoryName yapýn
             CategoryName = g.First().Product.Category.Name,
             Images = g.ToList()
         })
@@ -19,17 +16,23 @@
     int tabContentCounter = 0;
 }
 
-<section class="project-section" style="background-image: url(/Bagery/assets/images/background/gallery-1.jpg);">
+<section class="project-section" style="background-image: url('https://res.cloudinary.com/dgvrf9qqf/image/upload/v1769805353/gallery-1_luh34n.jpg');">
     <div class="auto-container">
         <div class="row clearfix">
             <div class="col-lg-4 col-md-12 col-sm-12 content-column">
                 <div class="content-box">
                     <div class="sec-title">
-                        <p>Photo Gallery</p>
-                        <h2>Let’s See Our Gallery</h2>
+                        <p>Fotoðraf Galerisi</p>
+                        <h2>Galerimize Göz Atýn</h2>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <div class="text">
-                        <p>Excepteur sint occaecat cupidat non proident sunt in culpa qui officia deserunt mollit anim est laborum. magni dolores eos ratione voluptatem sequi nesciunt.</p>
+                        <h3>Lezzetli ürünlerimiz ve mutlu anlarýmýzdan kareler. Özenle hazýrladýðýmýz tatlýlarýn ve fýrýn ürünlerimizin görsel þölenine tanýklýk edin.</h3>
                     </div>
                 </div>
             </div>
@@ -92,3 +95,4 @@
         </div>
     </div>
 </section>
+
