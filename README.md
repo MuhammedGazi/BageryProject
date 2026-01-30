@@ -75,6 +75,7 @@ graph TD;
     Business-->DataAccess;
     Business-->Core;
     DataAccess-->Core;
+
 🧩 Uygulanan Tasarım Desenleri (Design Patterns)
 CQRS (Command Query Responsibility Segregation):
 
